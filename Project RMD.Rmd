@@ -21,8 +21,6 @@ S14_15 <- read.csv("2014-2015_Match.csv")
 Choose Chelsea as home team and Liverpool as away team
 
 ```{r data_manip}
-# Remove data after desired match
-S14_15 <- S14_15[1:356,]
 
 # Keep only necessary columns
 S11_12 <- S11_12[,2:7]
@@ -30,16 +28,71 @@ S12_13 <- S12_13[,2:7]
 S13_14 <- S13_14[,2:7]
 S14_15 <- S14_15[,2:7]
 
-# Subset and combine for Chelsea Home
-C_Home <- 
 
-# Subset and combine for Liverpool Away
+Away_Function <- function(team_name) {
+  
+  # Subset and combine away team matches
+  away <- S11_12[S11_12$AwayTeam == team_name,]
+  away <- rbind(away, S12_13[S12_13$AwayTeam == team_name,])
+  away <- rbind(away, S13_14[S13_14$AwayTeam == team_name,])
+  away <- rbind(away, S14_15[S14_15$AwayTeam == team_name,])
+  
+  # Create new columns
+  away$num_points <- rep(NA, length(away$FTR))
+  away$outcome <- rep(NA, length(away$FTR))
+  
+  # Fill new columns
+  for (i in 1:length(away$num_points)) {
+    if (away$FTR[i] == "A") {
+      away$num_points[i] <- 3
+      away$outcome[i] <- "W"
+    }
+    if (away$FTR[i] == "H") {
+      away$num_points[i] <- 0
+      away$outcome[i] <- "L"
+    }
+    if (away$FTR[i] == "D") {
+      away$num_points[i] <- 1
+      away$outcome[i] <- "D"
+    }
+  }
+  return(away)
+}
 
+Home_Function <- function(team_name) {
+  
+  # Subset and combine home team matches
+  home <- S11_12[S11_12$HomeTeam == team_name,]
+  home <- rbind(home, S12_13[S12_13$HomeTeam == team_name,])
+  home <- rbind(home, S13_14[S13_14$HomeTeam == team_name,])
+  home <- rbind(home, S14_15[S14_15$HomeTeam == team_name,])
+  
+  # Create new columns
+  home$num_points <- rep(NA, length(home$FTR))
+  home$outcome <- rep(NA, length(home$FTR))
+  
+  # Fill new columns
+  for (i in 1:length(home$num_points)) {
+    if (home$FTR[i] == "A") {
+      home$num_points[i] <- 0
+      home$outcome[i] <- "L"
+    }
+    if (home$FTR[i] == "H") {
+      home$num_points[i] <- 3
+      home$outcome[i] <- "W"
+    }
+    if (home$FTR[i] == "D") {
+      home$num_points[i] <- 1
+      home$outcome[i] <- "D"
+    }
+  }
+  return(home)
+}
 
-# Add numerical columns representing match win/loss/draw points
+Chelsea_Home <- Home_Function("Chelsea")
 
+Chelsea_Away <- Away_Function("Chelsea")
 
-Chelsea_Home <- data.frame()
 
 
 
