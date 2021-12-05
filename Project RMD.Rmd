@@ -118,7 +118,7 @@ avg_goals_concededh <- sum(tail(Chelsea_Home$FTAG, 19))/19
 avg_goalsa <- sum(tail(Liverpool_Away$FTAG, 19))/19
 avg_goals_concededa <- sum(tail(Liverpool_Away$FTHG, 19))/19
 
-lam_home <- (avg_goalsh + avg_goals_concededa)/2
+lam_home <- (avg_goalsh + avg_goals_concededa)/2 
 lam_away <- (avg_goalsa + avg_goals_concededh)/2
 
 away_df <- cbind(tail(Arsenal_Away, 19), tail(`Aston Villa_Away`,19), tail(Blackburn_Away, 19), tail(Bolton_Away, 19), tail(Chelsea_Away, 19), tail(Everton_Away, 19), tail(Fulham_Away, 19), tail(Liverpool_Away, 19), tail(`Man City_Away`, 19), tail(`Man United_Away`, 19), tail(Newcastle_Away, 19), tail(Norwich_Away, 19), tail(QPR_Away, 19), tail(Stoke_Away, 19), tail(Sunderland_Away, 19), tail(Swansea_Away, 19), tail(Tottenham_Away, 19), tail(`West Brom_Away`, 19), tail(Wigan_Away, 19), tail(Wolves_Away, 19))
@@ -225,3 +225,4 @@ new=newcastle[newcastle$Date==c("03/01/12", "22/01/12", "04/02/12", "25/02/12", 
 ggplot(data = new, mapping = aes(Date, outcome, color=outcome)) + geom_boxplot()
 ```
 
+$\lambda_{home} = (Average goals scored by home team + Average goals conceded by away team)/2$

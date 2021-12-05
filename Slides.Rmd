@@ -27,6 +27,8 @@ S14_15 <- read.csv("2014-2015_Match.csv")
 
 What is necessary information on soccer? There are 20 teams in the English Premier League. Each team plays 19 away games and 19 home games?
 
+# Exploratory Data Analysis
+
 # Data Manipulation
 
 We wanted to use the specific variables FTR, FTAG, and FTHG, along with the identifier variables of Date, Away Team, and Home Team. There were no NA values in any of our selected variables.   
