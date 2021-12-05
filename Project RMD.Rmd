@@ -101,4 +101,18 @@ for(i in teams) {
 ```
 
 
+```{r}
+#Jasmine's test section
+
+avg_goalsh <- sum(tail(Chelsea_Home$FTHG, 19))/19
+avg_goals_concededh <- sum(tail(Chelsea_Home$FTAG, 19))/19
+
+avg_goalsa <- sum(tail(Liverpool_Away$FTAG, 19))/19
+avg_goals_concededa <- sum(tail(Liverpool_Away$FTHG, 19))/19
+
+lam_home <- (avg_goalsh + avg_goals_concededa)/2
+lam_away <- (avg_goalsa + avg_goals_concededh)/2
+
+```
+
 
