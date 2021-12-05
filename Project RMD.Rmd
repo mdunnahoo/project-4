@@ -16,6 +16,34 @@ S11_12 <- read.csv("2011-2012_Match.csv")
 S12_13 <- read.csv("2012-2013_Match.csv")
 S13_14 <- read.csv("2013-2014_Match.csv")
 S14_15 <- read.csv("2014-2015_Match.csv")
+```
+
+Choose Chelsea as home team and Liverpool as away team
+
+```{r data_manip}
+# Remove data after desired match
+S14_15 <- S14_15[1:356,]
+
+# Keep only necessary columns
+S11_12 <- S11_12[,2:7]
+S12_13 <- S12_13[,2:7]
+S13_14 <- S13_14[,2:7]
+S14_15 <- S14_15[,2:7]
+
+# Subset and combine for Chelsea Home
+C_Home <- 
+
+# Subset and combine for Liverpool Away
+
+
+# Add numerical columns representing match win/loss/draw points
+
+
+Chelsea_Home <- data.frame()
+
 
 
 ```
+
+
+
