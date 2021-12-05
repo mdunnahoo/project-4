@@ -1,6 +1,6 @@
 ---
 title: "Project RMD"
-author: "Megan Dunnahoo"
+author: "Megan Dunnahoo, Jasmine DeMeyer, Macey Dodd"
 date: "11/30/2021"
 output: pdf_document
 ---
