@@ -89,12 +89,14 @@ Home_Function <- function(team_name) {
   return(home)
 }
 
-Chelsea_Home <- Home_Function("Chelsea")
-
-Chelsea_Away <- Away_Function("Chelsea")
-
-
-
+teams <- unique(S11_12$HomeTeam)
+for(i in teams) {
+  print(i)
+  nam_h <- paste(i, "Home", sep = "_")
+  assign(nam_h, Home_Function(i))
+  nam_a <- paste(i, "Away", sep = "_")
+  assign(nam_a, Away_Function(i))
+}
 
 ```
 
