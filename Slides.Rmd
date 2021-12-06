@@ -12,8 +12,9 @@ set.seed(400)
 
 # Article 
 
-We chose the article ... 
-Summarize the article
+We chose the article "Using Monte Carlo Simulation to Calculate Match Importance:
+The Case of English Premier League" by Jiri Lahvicka. This article describes the process of using Monte Carlo simulations to predict the outcome of a match given the results of previous matches. It then goes further and uses Monte Carlo simulations to predict the final ranking of the teams in the English Premier League at the end of a season. 
+
 
 ```{r data, echo=FALSE}
 S11_12 <- read.csv("2011-2012_Match.csv")
