@@ -112,7 +112,6 @@ Fulham_Away
 
 ```{r}
 #Jasmine's test section
-
 avg_goalsh <- sum(tail(Chelsea_Home$FTHG, 19))/19
 avg_goals_concededh <- sum(tail(Chelsea_Home$FTAG, 19))/19
 
