@@ -98,6 +98,10 @@ for(i in teams) {
   assign(nam_a, Away_Function(i))
 }
 
+Chelsea_Home
+
+Fulham_Away
+
 ```
 
 
