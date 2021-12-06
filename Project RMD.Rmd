@@ -6,8 +6,8 @@ output: pdf_document
 ---
 
 ```{r setup, include=FALSE}
-
-
+library(tidyverse)
+set.seed(400)
 ```
 
 
@@ -18,7 +18,7 @@ S13_14 <- read.csv("2013-2014_Match.csv")
 S14_15 <- read.csv("2014-2015_Match.csv")
 ```
 
-Choose Chelsea as home team and Liverpool as away team
+Choose Chelsea as home team and Liverpool as away team (match date of )
 
 ```{r data_manip}
 
@@ -28,6 +28,11 @@ S12_13 <- S12_13[,2:7]
 S13_14 <- S13_14[,2:7]
 S14_15 <- S14_15[,2:7]
 
+# Add id to keep order
+S11_12$Id <- seq(1:nrow(S11_12))
+S12_13$Id <- seq(381,760)
+S13_14$Id <- seq(761,1140)
+S14_15$Id <- seq(1141,1520)
 
 Away_Function <- function(team_name) {
   
@@ -123,5 +128,36 @@ home_df <- cbind(tail(Arsenal_Home, 19), tail(`Aston Villa_Home`,19), tail(Black
 
 
 ```
+
+```{r mc}
+# number of MC iterations
+m <- 1000
+lam_away <- rep(NA, m)
+lam_home <- rep(NA, m)
+for (i in 1:m) {
+  lam_away[i] <- rpois(1, away)
+  lam_home[i] <- rpois(1, home)
+}
+
+away_df2 <- rbind(Arsenal_Away,`Aston Villa_Away`,Blackburn_Away,Bolton_Away,Chelsea_Away,Everton_Away,Fulham_Away, Liverpool_Away,`Man City_Away`,`Man United_Away`,Newcastle_Away,Norwich_Away,QPR_Away,Stoke_Away,Sunderland_Away, Swansea_Away,Tottenham_Away,`West Brom_Away`,Wigan_Away,Wolves_Away)
+
+away_df2 %>% group_by(AwayTeam)
+away_df3 <- away_df2[order(away_df2$Date),]
+
+
+home_df2 <- rbind(Arsenal_Home,`Aston Villa_Home`,Blackburn_Home,Bolton_Home,Chelsea_Home,Everton_Home,Fulham_Home, Liverpool_Home,`Man City_Home`,`Man United_Home`,Newcastle_Home,Norwich_Home,QPR_Home,Stoke_Home,Sunderland_Home, Swansea_Home,Tottenham_Home,`West Brom_Home`,Wigan_Home,Wolves_Home)
+
+home_df2 %>% group_by(HomeTeam)
+home_df2$Date <- as.Date(home_df2$Date)
+
+
+mc_funct <- function(match_date) {
+  filtered_home <- subset(home_df2, Date<match_date)
+}
+
+match_date <- x
+```
+
+
 
 
