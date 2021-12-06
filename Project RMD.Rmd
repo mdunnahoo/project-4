@@ -105,4 +105,23 @@ Fulham_Away
 ```
 
 
+```{r}
+#Jasmine's test section
+
+avg_goalsh <- sum(tail(Chelsea_Home$FTHG, 19))/19
+avg_goals_concededh <- sum(tail(Chelsea_Home$FTAG, 19))/19
+
+avg_goalsa <- sum(tail(Liverpool_Away$FTAG, 19))/19
+avg_goals_concededa <- sum(tail(Liverpool_Away$FTHG, 19))/19
+
+lam_home <- (avg_goalsh + avg_goals_concededa)/2
+lam_away <- (avg_goalsa + avg_goals_concededh)/2
+
+away_df <- cbind(tail(Arsenal_Away, 19), tail(`Aston Villa_Away`,19), tail(Blackburn_Away, 19), tail(Bolton_Away, 19), tail(Chelsea_Away, 19), tail(Everton_Away, 19), tail(Fulham_Away, 19), tail(Liverpool_Away, 19), tail(`Man City_Away`, 19), tail(`Man United_Away`, 19), tail(Newcastle_Away, 19), tail(Norwich_Away, 19), tail(QPR_Away, 19), tail(Stoke_Away, 19), tail(Sunderland_Away, 19), tail(Swansea_Away, 19), tail(Tottenham_Away, 19), tail(`West Brom_Away`, 19), tail(Wigan_Away, 19), tail(Wolves_Away, 19))
+
+home_df <- cbind(tail(Arsenal_Home, 19), tail(`Aston Villa_Home`,19), tail(Blackburn_Home, 19), tail(Bolton_Home, 19), tail(Chelsea_Home, 19), tail(Everton_Home, 19), tail(Fulham_Home, 19), tail(Liverpool_Home, 19), tail(`Man City_Away`, 19), tail(`Man United_Away`, 19), tail(Newcastle_Away, 19), tail(Norwich_Home, 19), tail(QPR_Home, 19), tail(Stoke_Home, 19), tail(Sunderland_Home, 19), tail(Swansea_Home, 19), tail(Tottenham_Home, 19), tail(`West Brom_Home`, 19), tail(Wigan_Home, 19), tail(Wolves_Home, 19))
+
+
+```
+
 
