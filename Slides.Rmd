@@ -1,8 +1,8 @@
 ---
-title: "Project RMD"
+title: "Stat 400 Project - Group 4"
 author: "Megan Dunnahoo, Jasmine DeMeyer, Macey Dodd"
-date: "11/30/2021"
-output: pdf_document
+date: "12/6/2021"
+output: beamer_presentation
 ---
 
 ```{r setup, include=FALSE}
@@ -10,17 +10,14 @@ library(tidyverse)
 set.seed(400)
 ```
 
-
-```{r data}
+```{r data, echo=FALSE}
 S11_12 <- read.csv("2011-2012_Match.csv")
 S12_13 <- read.csv("2012-2013_Match.csv")
 S13_14 <- read.csv("2013-2014_Match.csv")
 S14_15 <- read.csv("2014-2015_Match.csv")
 ```
 
-Choose Chelsea as home team and Liverpool as away team (match date of )
-
-```{r data_manip}
+```{r data_manip, echo=FALSE}
 
 # Keep only necessary columns
 S11_12 <- S11_12[,2:7]
@@ -102,43 +99,10 @@ for(i in teams) {
   assign(nam_a, Away_Function(i))
 }
 
-Chelsea_Home
-
-Fulham_Away
-
 ```
 
 
-```{r}
-#Jasmine's test section
-
-avg_goalsh <- sum(tail(Chelsea_Home$FTHG, 19))/19
-avg_goals_concededh <- sum(tail(Chelsea_Home$FTAG, 19))/19
-
-avg_goalsa <- sum(tail(Liverpool_Away$FTAG, 19))/19
-avg_goals_concededa <- sum(tail(Liverpool_Away$FTHG, 19))/19
-
-lam_home <- (avg_goalsh + avg_goals_concededa)/2
-lam_away <- (avg_goalsa + avg_goals_concededh)/2
-
-away_df <- cbind(tail(Arsenal_Away, 19), tail(`Aston Villa_Away`,19), tail(Blackburn_Away, 19), tail(Bolton_Away, 19), tail(Chelsea_Away, 19), tail(Everton_Away, 19), tail(Fulham_Away, 19), tail(Liverpool_Away, 19), tail(`Man City_Away`, 19), tail(`Man United_Away`, 19), tail(Newcastle_Away, 19), tail(Norwich_Away, 19), tail(QPR_Away, 19), tail(Stoke_Away, 19), tail(Sunderland_Away, 19), tail(Swansea_Away, 19), tail(Tottenham_Away, 19), tail(`West Brom_Away`, 19), tail(Wigan_Away, 19), tail(Wolves_Away, 19))
-
-home_df <- cbind(tail(Arsenal_Home, 19), tail(`Aston Villa_Home`,19), tail(Blackburn_Home, 19), tail(Bolton_Home, 19), tail(Chelsea_Home, 19), tail(Everton_Home, 19), tail(Fulham_Home, 19), tail(Liverpool_Home, 19), tail(`Man City_Away`, 19), tail(`Man United_Away`, 19), tail(Newcastle_Away, 19), tail(Norwich_Home, 19), tail(QPR_Home, 19), tail(Stoke_Home, 19), tail(Sunderland_Home, 19), tail(Swansea_Home, 19), tail(Tottenham_Home, 19), tail(`West Brom_Home`, 19), tail(Wigan_Home, 19), tail(Wolves_Home, 19))
-
-
-
-```
-
-```{r mc}
-# number of MC iterations
-m <- 1000
-lam_away <- rep(NA, m)
-lam_home <- rep(NA, m)
-for (i in 1:m) {
-  lam_away[i] <- rpois(1, away)
-  lam_home[i] <- rpois(1, home)
-}
-
+```{r mc, echo=FALSE}
 away_df2 <- rbind(Arsenal_Away,`Aston Villa_Away`,Blackburn_Away,Bolton_Away,Chelsea_Away,Everton_Away,Fulham_Away, Liverpool_Away,`Man City_Away`,`Man United_Away`,Newcastle_Away,Norwich_Away,QPR_Away,Stoke_Away,Sunderland_Away, Swansea_Away,Tottenham_Away,`West Brom_Away`,Wigan_Away,Wolves_Away)
 
 away_df2 %>% group_by(AwayTeam)
@@ -167,10 +131,5 @@ mc_funct <- function(match_id, away_team, home_team) {
   #matches[1] Home=rep(NA,m), Away=rep(NA,m), Result=rep(NA,m)
 }
 
-rpois(n=1, lambda=lam_home_val)
-
 ```
-
-
-
 
