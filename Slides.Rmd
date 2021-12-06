@@ -10,12 +10,25 @@ library(tidyverse)
 set.seed(400)
 ```
 
+# Article 
+
+We chose the article ... 
+Summarize the article
+
 ```{r data, echo=FALSE}
 S11_12 <- read.csv("2011-2012_Match.csv")
 S12_13 <- read.csv("2012-2013_Match.csv")
 S13_14 <- read.csv("2013-2014_Match.csv")
 S14_15 <- read.csv("2014-2015_Match.csv")
 ```
+
+# Soccer Information
+
+What is necessary information on soccer? There are 20 teams in the English Premier League. Each team plays 19 away games and 19 home games?
+
+# Data Manipulation
+
+We wanted to use the specific variables FTR, FTAG, and FTHG, along with the identifier variables of Date, Away Team, and Home Team. There were no NA values in any of our selected variables.
 
 ```{r data_manip, echo=FALSE}
 
@@ -102,6 +115,11 @@ for(i in teams) {
 ```
 
 
+
+
+# Results
+
+
 ```{r mc, echo=FALSE}
 away_df2 <- rbind(Arsenal_Away,`Aston Villa_Away`,Blackburn_Away,Bolton_Away,Chelsea_Away,Everton_Away,Fulham_Away, Liverpool_Away,`Man City_Away`,`Man United_Away`,Newcastle_Away,Norwich_Away,QPR_Away,Stoke_Away,Sunderland_Away, Swansea_Away,Tottenham_Away,`West Brom_Away`,Wigan_Away,Wolves_Away)
 
@@ -133,3 +151,8 @@ mc_funct <- function(match_id, away_team, home_team) {
 
 ```
 
+
+
+# Going Forward 
+
+What we plan to do in the next week
