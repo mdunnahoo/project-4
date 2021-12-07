@@ -172,5 +172,56 @@ rpois(n=1, lambda=lam_home_val)
 ```
 
 
+```{r}
+# Macey's test Monte Carlo section
+# Monte Carlo Plan
+set.seed(400)
+m=10000000
+# use poisson distribution 
+# rpois(n, lambda)
+#f <- function(x){
+  
+#}
+#u <- rpois(m, lambda)
+#theta_hat <- mean(f(u))
+#print(theta_hat)
+```
 
+```{r}
+# Exploratory Data Analysis 
+liverpool=Away_Function("Liverpool")
+#liverpool=selectByDate(liverpool$Date, start = "13/08/11", end = "1/05/12")
+liverpool=liverpool[liverpool$Date==c("12/1/14", "2/2/14", "12/2/14", "1/3/14", "16/03/14", "22/03/14", "6/4/14", "20/04/14"), ]
+# rename axis tick marks, title 
+#l=liverpool[c(3,23,52), ]
+#l
+#liverpool <- liverpool[c(3,23,52), 1]
+#liverpool <- liverpool$Date[c(3,23,52)]
+ggplot(data = liverpool, mapping = aes(Date, outcome, color=outcome)) + geom_boxplot()
+#x.sub4 <- x.df[x.df$y == 1, ]
+# Plot wins over time for chelsea and liverpool
+# Plot graphs side by side, C vs. L 
+# color by outcome
+# manchester city and newcastle, man city home, newcastle away 
+# subset date, liverpool home function date < match date 
+# show after data manip before prediction, show graph before 
+# same with man city, newcastle 
+
+chelsea=Home_Function("Chelsea")
+chelsea=chelsea[chelsea$Date==c("20/08/11", "27/08/11", "24/09/11", "15/10/11", "29/10/11"), ]
+ggplot(data = chelsea, mapping = aes(Date, outcome, color=outcome)) + geom_boxplot()
+
+
+
+# Man City Home year 12-13
+mancity=Home_Function("Man City")
+man=mancity[mancity$Date==c("03/01/12", "22/01/12", "04/02/12", "25/02/12", "03/03/12", "21/03/12", "31/03/12", "11/04/12", "30/04/12", "13/05/12", "19/08/12"), ]
+ggplot(data = man, mapping = aes(Date, outcome, color=outcome)) + geom_boxplot()
+
+
+# Newcastle Away year 12-13 
+newcastle=Away_Function("Newcastle")
+new=newcastle[newcastle$Date==c("03/01/12", "22/01/12", "04/02/12", "25/02/12", "03/03/12", "21/03/12", "31/03/12", "11/04/12", "30/04/12", "13/05/12", "19/08/12"), ]
+ggplot(data = new, mapping = aes(Date, outcome, color=outcome)) + geom_boxplot()
+```
 
