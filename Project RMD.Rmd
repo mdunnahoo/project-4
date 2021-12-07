@@ -133,7 +133,7 @@ home_df <- cbind(tail(Arsenal_Home, 19), tail(`Aston Villa_Home`,19), tail(Black
 # number of MC iterations
 m <- 1000
 lam_away <- rep(NA, m)
-lam_home <- rep(NA, m)
+lam_home <- rep(NA, m) 
 for (i in 1:m) {
   lam_away[i] <- rpois(1, away)
   lam_home[i] <- rpois(1, home)
