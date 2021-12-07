@@ -1,7 +1,6 @@
 ---
 title: "Stat 400 Project - Group 4"
 author: "Megan Dunnahoo, Jasmine DeMeyer, Macey Dodd"
-date: "12/6/2021"
 output: beamer_presentation
 ---
 
@@ -31,7 +30,7 @@ What is necessary information on soccer? There are 20 teams in the English Premi
 
 We wanted to use the specific variables FTR, FTAG, and FTHG, along with the identifier variables of Date, Away Team, and Home Team. There were no NA values in any of our selected variables.   
 
-```{r data_manip, echo=FALSE}
+```{r data_manip, echo=FALSE, include=FALSE}
 
 # Keep only necessary columns
 S11_12 <- S11_12[,2:7]
@@ -115,7 +114,7 @@ for(i in teams) {
 
 ```
 
-```{r mc, echo=FALSE}
+```{r mc, echo=FALSE, include=FALSE}
 away_df2 <- rbind(Arsenal_Away,`Aston Villa_Away`,Blackburn_Away,Bolton_Away,Chelsea_Away,Everton_Away,Fulham_Away, Liverpool_Away,`Man City_Away`,`Man United_Away`,Newcastle_Away,Norwich_Away,QPR_Away,Stoke_Away,Sunderland_Away, Swansea_Away,Tottenham_Away,`West Brom_Away`,Wigan_Away,Wolves_Away)
 
 away_df2 %>% group_by(AwayTeam)
@@ -166,6 +165,15 @@ mc_funct <- function(match_id, away_team, home_team) {
 }
 
 ```
+
+# MC Estimation
+
+Estimating lambda values
+
+lhome ¼ Average goals scored by home team þ Average goals conceded by away team
+2
+laway ¼ Average goals conceded by home team þ Average goals scored by away team
+2
 
 # Prediction for Match 2014-2015 Chelsea (home) vs Liverpool (away)
 Predictions are in terms of the home team   
