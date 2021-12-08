@@ -1,12 +1,12 @@
 ---
 title: "Stat 400 Project - Group 4"
 author: "Megan Dunnahoo, Jasmine DeMeyer, Macey Dodd"
-date: "12/6/2021"
 output: beamer_presentation
 ---
 
 ```{r setup, include=FALSE}
 library(tidyverse)
+library(cowplot)
 set.seed(400)
 ```
 
@@ -25,15 +25,22 @@ S14_15 <- read.csv("2014-2015_Match.csv")
 
 # Soccer Information
 
-What is necessary information on soccer? There are 20 teams in the English Premier League. Each team plays 19 away games and 19 home games?
+The English Premier League is regarded as the most popular sports league in the world due to its massive audience views and impressive revenue. There are 20 teams in the English Premier League. Manchester United is considered to be the most popular football club with the Liverpool club in second. In football, a game can result in a tie as well as a win or a loss. Three points are awarded for a win, one for a draw and zero for a loss. At the end of each season, the lowest ranking three teams will be “relegated” or demoted to the lower football league, the English Football League (EFL). The highest three ranking clubs in the English Football League will be “promoted” into the Premier League.   
+
 
 # Exploratory Data Analysis
 
 # Data Manipulation
 
-We wanted to use the specific variables FTR, FTAG, and FTHG, along with the identifier variables of Date, Away Team, and Home Team. There were no NA values in any of our selected variables.   
 
-```{r data_manip, echo=FALSE}
+# Data and Code Setup
+
+
+We wanted to use the specific variables FTR, FTAG, and FTHG, along with the identifier variables of Date, Away Team, and Home Team. There were no NA values in any of our selected variables.   
+We used four seasons ranging from years 2011-2015. Each team played 19 away games and 19 home games.   
+We created functions to get the points scored and the outcome of the team for each team over the four years, specifying away or home games.   
+
+```{r data_manip, echo=FALSE, include=FALSE}
 
 # Keep only necessary columns
 S11_12 <- S11_12[,2:7]
@@ -117,7 +124,7 @@ for(i in teams) {
 
 ```
 
-```{r mc, echo=FALSE}
+```{r mc, echo=FALSE, include=FALSE}
 away_df2 <- rbind(Arsenal_Away,`Aston Villa_Away`,Blackburn_Away,Bolton_Away,Chelsea_Away,Everton_Away,Fulham_Away, Liverpool_Away,`Man City_Away`,`Man United_Away`,Newcastle_Away,Norwich_Away,QPR_Away,Stoke_Away,Sunderland_Away, Swansea_Away,Tottenham_Away,`West Brom_Away`,Wigan_Away,Wolves_Away)
 
 away_df2 %>% group_by(AwayTeam)
@@ -169,6 +176,31 @@ mc_funct <- function(match_id, away_team, home_team) {
 
 ```
 
+# MC Estimation
+
+We estimated the lambda home and lambda away values, which are the expected goals scored by the home and away team respectively, using Monte Carlo. These lambda values are assumed to be independent Poisson distributed variables and are calculated using the last 19 matches for each team.     
+
+$\lambda_{home}=\frac{\text{Average goals scored by home team + Average goals conceded by away team}}{2}$   
+$\lambda_{away}=\frac{\text{Average goals scored by away team + Average goals conceded by home team}}{2}$
+
+# Exploratory Plot of Outcomes Before Match (Chelsea vs Liverpool)
+
+```{r graph1, echo=FALSE}
+chel <- Home_Function("Chelsea")
+chel$Date <- as.Date(chel$Date, "%d/%m/%y")
+chel <- chel[1:74,]
+
+liv <- Away_Function("Liverpool")
+liv$Date <- as.Date(liv$Date, "%d/%m/%y")
+liv <- liv[1:74,]
+
+plot1 <- ggplot(chel) +
+  geom_point(aes(Date, outcome, color=outcome)) + ggtitle("Chelsea")
+plot2 <- ggplot(liv) +
+  geom_point(aes(Date, outcome, color=outcome)) + ggtitle("Liverpool")
+plot_grid(plot1, plot2, labels="AUTO", ncol=1)
+```
+
 # Prediction for Match 2014-2015 Chelsea (home) vs Liverpool (away)
 Predictions are in terms of the home team   
 Actual result was a draw
@@ -184,7 +216,24 @@ res1497 <- res1497 %>%
   slice(match(Var1, order))
 colnames(res1497) <- c("Match Result", "Occurances", "Percent")
 res1497
+```
 
+# Exploratory Plot of Outcomes Before Match (Man City vs Newcastle)
+
+```{r graph2, echo=FALSE}
+man <- Home_Function("Man City")
+man$Date <- as.Date(man$Date, "%d/%m/%y")
+man <- man[1:38,]
+
+new <- Away_Function("Newcastle")
+new$Date <- as.Date(new$Date, "%d/%m/%y")
+new <- new[1:38,]
+
+plot3 <- ggplot(man) +
+  geom_point(aes(Date, outcome, color=outcome)) + ggtitle("Manchester City")
+plot4 <- ggplot(new) +
+  geom_point(aes(Date, outcome, color=outcome)) + ggtitle("Newcastle")
+plot_grid(plot3, plot4, labels="AUTO", ncol=1)
 ```
 
 # Prediction for Match 2013-2014 Manchester City (home) vs Newcastle (away)
