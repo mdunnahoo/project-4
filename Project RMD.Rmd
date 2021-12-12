@@ -1,7 +1,7 @@
 ---
-title: "Project RMD"
+title: "English Premier League Monte Carlo Analysis"
 author: "Megan Dunnahoo, Jasmine DeMeyer, Macey Dodd"
-date: "11/30/2021"
+date: "12/16/2021"
 output: pdf_document
 ---
 
@@ -11,7 +11,7 @@ set.seed(400)
 ```
 
 
-```{r data}
+```{r data, include=FALSE}
 S11_12 <- read.csv("2011-2012_Match.csv")
 S12_13 <- read.csv("2012-2013_Match.csv")
 S13_14 <- read.csv("2013-2014_Match.csv")
@@ -20,7 +20,7 @@ S14_15 <- read.csv("2014-2015_Match.csv")
 
 Choose Chelsea as home team and Liverpool as away team (match date of )
 
-```{r data_manip}
+```{r data_manip, include=FALSE}
 
 # Keep only necessary columns
 S11_12 <- S11_12[,2:7]
@@ -102,14 +102,10 @@ for(i in teams) {
   assign(nam_a, Away_Function(i))
 }
 
-Chelsea_Home
-
-Fulham_Away
-
 ```
 
 
-```{r}
+```{r, include=FALSE}
 #Jasmine's test section
 
 avg_goalsh <- sum(tail(Chelsea_Home$FTHG, 19))/19
@@ -125,20 +121,9 @@ away_df <- cbind(tail(Arsenal_Away, 19), tail(`Aston Villa_Away`,19), tail(Black
 
 home_df <- cbind(tail(Arsenal_Home, 19), tail(`Aston Villa_Home`,19), tail(Blackburn_Home, 19), tail(Bolton_Home, 19), tail(Chelsea_Home, 19), tail(Everton_Home, 19), tail(Fulham_Home, 19), tail(Liverpool_Home, 19), tail(`Man City_Away`, 19), tail(`Man United_Away`, 19), tail(Newcastle_Away, 19), tail(Norwich_Home, 19), tail(QPR_Home, 19), tail(Stoke_Home, 19), tail(Sunderland_Home, 19), tail(Swansea_Home, 19), tail(Tottenham_Home, 19), tail(`West Brom_Home`, 19), tail(Wigan_Home, 19), tail(Wolves_Home, 19))
 
-
-
 ```
 
-```{r mc}
-# number of MC iterations
-m <- 1000
-lam_away <- rep(NA, m)
-lam_home <- rep(NA, m) 
-for (i in 1:m) {
-  lam_away[i] <- rpois(1, away)
-  lam_home[i] <- rpois(1, home)
-}
-
+```{r mc, include=FALSE}
 away_df2 <- rbind(Arsenal_Away,`Aston Villa_Away`,Blackburn_Away,Bolton_Away,Chelsea_Away,Everton_Away,Fulham_Away, Liverpool_Away,`Man City_Away`,`Man United_Away`,Newcastle_Away,Norwich_Away,QPR_Away,Stoke_Away,Sunderland_Away, Swansea_Away,Tottenham_Away,`West Brom_Away`,Wigan_Away,Wolves_Away)
 
 away_df2 %>% group_by(AwayTeam)
@@ -155,74 +140,116 @@ mc_funct <- function(match_id, away_team, home_team) {
   home_t <- home_df_tail[home_df_tail$HomeTeam==home_team,]
   avg_goalsh <- sum(home_t$FTHG, 19)/19
   avg_goals_concededh <- sum(home_t$FTAG, 19)/19
-  lam_home_val <- (avg_goalsh + avg_goals_concededa)/2 
   
   away_t <- away_df_tail[away_df_tail$AwayTeam==away_team,]
   avg_goalsa <- sum(away_t$FTAG, 19)/19
   avg_goals_concededa <- sum(away_t$FTHG, 19)/19
+  
+  lam_home_val <- (avg_goalsh + avg_goals_concededa)/2 
   lam_away_val <- (avg_goalsa + avg_goals_concededh)/2
   
-  m <- 1000000
-  matches <- matrix(ncol=3, nrow=m)
-  #matches[1] Home=rep(NA,m), Away=rep(NA,m), Result=rep(NA,m)
+  m <- 100000
+  matches <- data.frame(Home=rep(NA,m), Away=rep(NA,m), ResultH=rep(NA,m), ResultA=rep(NA,m))
+  for (i in 1:m) {
+    home_goals <- rpois(1,lam_home_val)
+    away_goals <- rpois(1,lam_away_val)
+    matches[i,1] <- home_goals
+    matches[i,2] <- away_goals
+    if (home_goals > away_goals) {
+      matches[i,3] <- "Win"
+      matches[i,4] <- "Loss"
+    }
+    if (home_goals < away_goals) {
+      matches[i,3] <- "Loss"
+      matches[i,4] <- "Win"
+    }
+    if (home_goals == away_goals) {
+      matches[i,3] <- "Draw"
+      matches[i,4] <- "Draw"
+    }
+  }
+  matches[,3] <- as.factor(matches[,3])
+  matches[,4] <- as.factor(matches[,4])
+  return(matches)
 }
 
-rpois(n=1, lambda=lam_home_val)
+```
+
+# MC Estimation
+
+We estimated the lambda home and lambda away values, which are the expected goals scored by the home and away team respectively, using Monte Carlo. These lambda values are assumed to be independent Poisson distributed variables and are calculated using the last 19 matches for each team.     
+
+$\lambda_{home}=\frac{\text{Average goals scored by home team + Average goals conceded by away team}}{2}$   
+$\lambda_{away}=\frac{\text{Average goals scored by away team + Average goals conceded by home team}}{2}$
+
+# Exploratory Plot of Outcomes Before Match (Chelsea vs Liverpool)
+
+```{r graph1, echo=FALSE}
+chel <- Home_Function("Chelsea")
+chel$Date <- as.Date(chel$Date, "%d/%m/%y")
+chel <- chel[1:74,]
+
+liv <- Away_Function("Liverpool")
+liv$Date <- as.Date(liv$Date, "%d/%m/%y")
+liv <- liv[1:74,]
+
+plot1 <- ggplot(chel) +
+  geom_point(aes(Date, outcome, color=outcome)) + ggtitle("Chelsea")
+plot2 <- ggplot(liv) +
+  geom_point(aes(Date, outcome, color=outcome)) + ggtitle("Liverpool")
+plot_grid(plot1, plot2, labels="AUTO", ncol=1)
+```
+
+# Prediction for Match 2014-2015 Chelsea (home) vs Liverpool (away)
+Predictions are in terms of the home team   
+Actual result was a draw
+
+```{r pred, echo=FALSE}
+# Takes a couple minutes to run
+Match1497 <- mc_funct(match_id=1497, home_team="Chelsea", away_team="Liverpool")
+res1497 <- table(t(Match1497$ResultH))
+res1497 <- as.data.frame(res1497)
+res1497$Percent <- res1497$Freq/100000 * 100
+order <- c("Win", "Loss", "Draw")
+res1497 <- res1497 %>%
+  slice(match(Var1, order))
+colnames(res1497) <- c("Match Result", "Occurances", "Percent")
+res1497
+```
+
+# Exploratory Plot of Outcomes Before Match (Man City vs Newcastle)
+
+```{r graph2, echo=FALSE}
+man <- Home_Function("Man City")
+man$Date <- as.Date(man$Date, "%d/%m/%y")
+man <- man[1:38,]
+
+new <- Away_Function("Newcastle")
+new$Date <- as.Date(new$Date, "%d/%m/%y")
+new <- new[1:38,]
+
+plot3 <- ggplot(man) +
+  geom_point(aes(Date, outcome, color=outcome)) + ggtitle("Manchester City")
+plot4 <- ggplot(new) +
+  geom_point(aes(Date, outcome, color=outcome)) + ggtitle("Newcastle")
+plot_grid(plot3, plot4, labels="AUTO", ncol=1)
+```
+
+# Prediction for Match 2013-2014 Manchester City (home) vs Newcastle (away)
+Predictions are in terms of the home team   
+Actual result was a home win
+
+```{r pred2, echo=FALSE}
+# Takes a couple minutes to run
+Match770 <- mc_funct(match_id=770, home_team="Man City", away_team="Newcastle")
+res770 <- table(t(Match770$ResultH))
+res770 <- as.data.frame(res770)
+res770$Percent <- res770$Freq/100000 * 100
+order <- c("Win", "Loss", "Draw")
+res770 <- res770 %>%
+  slice(match(Var1, order))
+colnames(res770) <- c("Match Result", "Occurances", "Percent")
+res770
 
 ```
 
-
-```{r}
-# Macey's test Monte Carlo section
-# Monte Carlo Plan
-set.seed(400)
-m=10000000
-# use poisson distribution 
-# rpois(n, lambda)
-#f <- function(x){
-  
-#}
-#u <- rpois(m, lambda)
-#theta_hat <- mean(f(u))
-#print(theta_hat)
-```
-
-```{r}
-# Exploratory Data Analysis 
-liverpool=Away_Function("Liverpool")
-#liverpool=selectByDate(liverpool$Date, start = "13/08/11", end = "1/05/12")
-liverpool=liverpool[liverpool$Date==c("12/1/14", "2/2/14", "12/2/14", "1/3/14", "16/03/14", "22/03/14", "6/4/14", "20/04/14"), ]
-# rename axis tick marks, title 
-#l=liverpool[c(3,23,52), ]
-#l
-#liverpool <- liverpool[c(3,23,52), 1]
-#liverpool <- liverpool$Date[c(3,23,52)]
-ggplot(data = liverpool, mapping = aes(Date, outcome, color=outcome)) + geom_boxplot()
-#x.sub4 <- x.df[x.df$y == 1, ]
-# Plot wins over time for chelsea and liverpool
-# Plot graphs side by side, C vs. L 
-# color by outcome
-# manchester city and newcastle, man city home, newcastle away 
-# subset date, liverpool home function date < match date 
-# show after data manip before prediction, show graph before 
-# same with man city, newcastle 
-
-chelsea=Home_Function("Chelsea")
-chelsea=chelsea[chelsea$Date==c("20/08/11", "27/08/11", "24/09/11", "15/10/11", "29/10/11"), ]
-ggplot(data = chelsea, mapping = aes(Date, outcome, color=outcome)) + geom_boxplot()
-
-
-
-# Man City Home year 12-13
-mancity=Home_Function("Man City")
-man=mancity[mancity$Date==c("03/01/12", "22/01/12", "04/02/12", "25/02/12", "03/03/12", "21/03/12", "31/03/12", "11/04/12", "30/04/12", "13/05/12", "19/08/12"), ]
-ggplot(data = man, mapping = aes(Date, outcome, color=outcome)) + geom_boxplot()
-
-
-# Newcastle Away year 12-13 
-newcastle=Away_Function("Newcastle")
-new=newcastle[newcastle$Date==c("03/01/12", "22/01/12", "04/02/12", "25/02/12", "03/03/12", "21/03/12", "31/03/12", "11/04/12", "30/04/12", "13/05/12", "19/08/12"), ]
-ggplot(data = new, mapping = aes(Date, outcome, color=outcome)) + geom_boxplot()
-```
-
-$\lambda_{home} = (Average goals scored by home team + Average goals conceded by away team)/2$
