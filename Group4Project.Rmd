@@ -275,7 +275,8 @@ mc2_funct <- function(match_id, away_team, home_team) {
   lam_home_val <- (avg_goalsh + avg_goals_concededa)/2 
   lam_away_val <- (avg_goalsa + avg_goals_concededh)/2
   
-  m <- 100000
+  # iterations are now 1000 instead of 100000
+  m <- 1000 
   matches <- data.frame(Home=rep(NA,m), Away=rep(NA,m), ResultH=rep(NA,m), ResultA=rep(NA,m))
   for (i in 1:m) {
     home_goals <- rpois(1,lam_home_val)
