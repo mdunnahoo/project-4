@@ -254,30 +254,42 @@ res770
 
 ```
 
-# Tottenham (Home) vs Sunderland (Away) 01/17/2015
+# Tottenham (Home) vs Aston Villa (Away) 04/11/2015
 
 ## Exploratory Plot of Outcomes Before Match
 
 ```{r}
-# Tottenham H, Sunderland A, Tottenham Wins, Year 2014-2015
 tott <- Home_Function("Tottenham")
 tott$Date <- as.Date(tott$Date, "%d/%m/%y")
-tott <- tott[1:68,]
+tott <- tott[1:73,]
 
-sun <- Away_Function("Sunderland")
-sun$Date <- as.Date(sun$Date, "%d/%m/%y")
-sun <- sun[1:68,]
+av <- Away_Function("Aston Villa")
+av$Date <- as.Date(av$Date, "%d/%m/%y")
+av <- av[1:73,]
 
 p1 <- ggplot(tott) +
   geom_point(aes(Date, outcome, color=outcome)) + ggtitle("Tottenham")
-p2 <- ggplot(sun) +
-  geom_point(aes(Date, outcome, color=outcome)) + ggtitle("Sunderland")
+p2 <- ggplot(av) +
+  geom_point(aes(Date, outcome, color=outcome)) + ggtitle("Aston Villa")
 plot_grid(p1, p2, labels="AUTO", ncol=1)
 ```
 
 ## Prediction for Match
+Predictions are in terms of the home team   
+Actual result was a home loss
 
-FILL THIS IN!!
+```{r pred2, echo=FALSE}
+# Takes a couple minutes to run
+Match3151 <- mc_funct(match_id=3151, home_team="Tottenham", away_team="Aston Villa")
+res3151<- table(t(Match3151$ResultH))
+res3151 <- as.data.frame(res3151)
+res3151$Percent <- res3151$Freq/100000 * 100
+order <- c("Win", "Loss", "Draw")
+res3151 <- res3151 %>%
+  slice(match(Var1, order))
+colnames(res3151) <- c("Match Result", "Occurances", "Percent")
+res3151
+```
 
 # Estimating final season ranking
 
