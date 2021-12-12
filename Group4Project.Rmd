@@ -192,22 +192,6 @@ liv <- Away_Function("Liverpool")
 liv$Date <- as.Date(liv$Date, "%d/%m/%y")
 liv <- liv[1:74,]
 
-# Tottenham H, Sunderland A, Tottenham Wins, Year 2014-2015
-tott <- Home_Function("Tottenham")
-tott$Date <- as.Date(tott$Date, "%d/%m/%y")
-tott <- tott[1:68,]
-
-sun <- Away_Function("Sunderland")
-sun$Date <- as.Date(sun$Date, "%d/%m/%y")
-sun <- sun[1:68,]
-
-p1 <- ggplot(tott) +
-  geom_point(aes(Date, outcome, color=outcome)) + ggtitle("Tottenham")
-p2 <- ggplot(sun) +
-  geom_point(aes(Date, outcome, color=outcome)) + ggtitle("Sunderland")
-plot_grid(p1, p2, labels="AUTO", ncol=1)
-
-
 plot1 <- ggplot(chel) +
   geom_point(aes(Date, outcome, color=outcome)) + ggtitle("Chelsea")
 plot2 <- ggplot(liv) +
@@ -269,6 +253,31 @@ colnames(res770) <- c("Match Result", "Occurances", "Percent")
 res770
 
 ```
+
+# Tottenham (Home) vs Sunderland (Away) 01/17/2015
+
+## Exploratory Plot of Outcomes Before Match
+
+```{r}
+# Tottenham H, Sunderland A, Tottenham Wins, Year 2014-2015
+tott <- Home_Function("Tottenham")
+tott$Date <- as.Date(tott$Date, "%d/%m/%y")
+tott <- tott[1:68,]
+
+sun <- Away_Function("Sunderland")
+sun$Date <- as.Date(sun$Date, "%d/%m/%y")
+sun <- sun[1:68,]
+
+p1 <- ggplot(tott) +
+  geom_point(aes(Date, outcome, color=outcome)) + ggtitle("Tottenham")
+p2 <- ggplot(sun) +
+  geom_point(aes(Date, outcome, color=outcome)) + ggtitle("Sunderland")
+plot_grid(p1, p2, labels="AUTO", ncol=1)
+```
+
+## Prediction for Match
+
+FILL THIS IN!!
 
 # Estimating final season ranking
 
