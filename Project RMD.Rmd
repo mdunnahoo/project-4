@@ -7,8 +7,24 @@ output: pdf_document
 
 ```{r setup, include=FALSE}
 library(tidyverse)
+library(cowplot)
 set.seed(400)
 ```
+
+# Article 
+
+We chose the article "Using Monte Carlo Simulation to Calculate Match Importance:
+The Case of English Premier League" by Jiri Lahvicka. This article describes the process of using Monte Carlo simulations to predict the outcome of a match given the results of previous matches. It then goes further and uses Monte Carlo simulations to predict the final ranking of the teams in the English Premier League at the end of a season. 
+
+# Soccer Information
+
+The English Premier League is regarded as the most popular sports league in the world due to its massive audience views and impressive revenue. There are 20 teams in the English Premier League. Manchester United is considered to be the most popular football club with the Liverpool club in second. In football, a game can result in a tie as well as a win or a loss. Three points are awarded for a win, one for a draw and zero for a loss. At the end of each season, the lowest ranking three teams will be “relegated” or demoted to the lower football league, the English Football League (EFL). The highest three ranking clubs in the English Football League will be “promoted” into the Premier League.   
+
+# Data and Code Setup
+
+We wanted to use the specific variables FTR, FTAG, and FTHG, along with the identifier variables of Date, Away Team, and Home Team. There were no NA values in any of our selected variables.   
+We used four seasons ranging from years 2011-2015. Each team played 19 away games and 19 home games.   
+We created functions to get the points scored and the outcome of the team for each team over the four years, specifying away or home games.
 
 
 ```{r data, include=FALSE}
@@ -18,7 +34,6 @@ S13_14 <- read.csv("2013-2014_Match.csv")
 S14_15 <- read.csv("2014-2015_Match.csv")
 ```
 
-Choose Chelsea as home team and Liverpool as away team (match date of )
 
 ```{r data_manip, include=FALSE}
 
