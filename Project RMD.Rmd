@@ -127,6 +127,7 @@ home_df <- cbind(tail(Arsenal_Home, 19), tail(`Aston Villa_Home`,19), tail(Black
 
 
 
+
 ```
 
 ```{r mc}
@@ -171,6 +172,13 @@ rpois(n=1, lambda=lam_home_val)
 
 ```
 
+
+```{r}
+#Jasmine test rank
+head(S11_12)
+#idea: get avg goals/avg goals conceded for each team and make data frame
+#loop through each team as home against each team as away to get lambda values
+```
 
 
 
