@@ -294,14 +294,13 @@ res770 <- res770 %>%
   slice(match(Var1, order))
 colnames(res770) <- c("Match Result", "Occurances", "Percent")
 res770
-
 ```
 
 ## Tottenham (Home) vs Aston Villa (Away) 04/11/2015
 
 ### Exploratory Plot of Outcomes Before Match
 
-```{r graph3, ehco=FALSE}
+```{r graph3, echo=FALSE}
 tott <- Home_Function("Tottenham")
 tott$Date <- as.Date(tott$Date, "%d/%m/%y")
 tott <- tott[1:73,]
