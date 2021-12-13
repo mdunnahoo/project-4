@@ -301,7 +301,7 @@ res770
 
 ### Exploratory Plot of Outcomes Before Match
 
-```{r}
+```{r graph3, ehco=FALSE}
 tott <- Home_Function("Tottenham")
 tott$Date <- as.Date(tott$Date, "%d/%m/%y")
 tott <- tott[1:73,]
@@ -321,7 +321,7 @@ plot_grid(p1, p2, labels="AUTO", ncol=1)
 Predictions are in terms of the home team   
 Actual result was a home loss
 
-```{r pred2, echo=FALSE}
+```{r pred3, echo=FALSE}
 # Takes a couple minutes to run
 Match3151 <- mc_funct(match_id=3151, home_team="Tottenham", away_team="Aston Villa")
 res3151<- table(t(Match3151$ResultH))
