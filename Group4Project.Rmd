@@ -14,7 +14,7 @@ set.seed(400)
 # Article 
 
 We chose the article "Using Monte Carlo Simulation to Calculate Match Importance:
-The Case of English Premier League" by Jiri Lahvicka. This article describes the process of using Monte Carlo simulations to predict the outcome of a match given the results of previous matches. It then goes further and uses Monte Carlo simulations to predict the final ranking of the teams in the English Premier League at the end of a season. 
+The Case of English Premier League" by Jiri Lahvicka. This article describes the process of using Monte Carlo simulations to predict the outcome of a match given the results of previous matches. It specifically predicts for the Manchester City vs Manchester United game in 2012. It then goes further and uses Monte Carlo simulations to predict the final ranking of the teams in the English Premier League at the end of a season. 
 
 # Background Information
 
@@ -22,7 +22,7 @@ The English Premier League is regarded as the most popular sports league in the 
 
 # Data and Code Setup
 
-We wanted to use the specific variables FTR, FTAG, and FTHG, along with the identifier variables of Date, Away Team, and Home Team. There were no NA values in any of our selected variables.   
+We got our data from football-data.co.uk. We wanted to use the specific variables FTR, FTAG, and FTHG, along with the identifier variables of Date, Away Team, and Home Team. There were no NA values in any of our selected variables.   
 We used four seasons ranging from years 2011-2015. Each team played 19 away games and 19 home games.   
 We created functions to get the points scored and the outcome of the team for each team over the four years, specifying away or home games.
 
@@ -174,14 +174,57 @@ mc_funct <- function(match_id, away_team, home_team) {
 
 # MC Estimation
 
-We estimated the lambda home and lambda away values, which are the expected goals scored by the home and away team respectively, using Monte Carlo. These lambda values are assumed to be independent Poisson distributed variables and are calculated using the last 19 matches for each team.     
+We estimated the lambda home and lambda away values, which are the expected goals scored by the home and away team respectively, using Monte Carlo. These lambda values are assumed to be independent Poisson distributed variables and are calculated using the last 19 matches for each team. The article ran 10,000,000 simulations, but due to our low computational power, we chose to run 100,000 simulations.        
 
 $\lambda_{home}=\frac{\text{Average goals scored by home team + Average goals conceded by away team}}{2}$   
 $\lambda_{away}=\frac{\text{Average goals scored by away team + Average goals conceded by home team}}{2}$
 
-# Chelsea (Home) vs Liverpool (Away) 5/10/2015
+# Replication From Article
 
-## Exploratory Plot of Outcomes Before Match
+## Manchester City (Home) vs Manchester United (Away) 4/30/2012
+
+### Exploratory Plot of Outcomes Before Match
+
+```{r graph0, echo=FALSE}
+man1 <- Home_Function("Man City")
+man1$Date <- as.Date(man1$Date, "%d/%m/%y")
+man1 <- man1[1:17,]
+
+uni1 <- Away_Function("Man United")
+uni1$Date <- as.Date(uni1$Date, "%d/%m/%y")
+uni1 <- uni1[1:17,]
+
+plot01 <- ggplot(man1) +
+  geom_point(aes(Date, outcome, color=outcome)) + ggtitle("Man City")
+plot02 <- ggplot(uni1) +
+  geom_point(aes(Date, outcome, color=outcome)) + ggtitle("Man United")
+plot_grid(plot01, plot02, labels="AUTO", ncol=1)
+
+```
+## Prediction for Match
+Predictions are in terms of the home team   
+Actual result was a home win (1-0)
+
+```{r pred0, echo=FALSE}
+# Takes a couple minutes to run
+Match356 <- mc_funct(match_id=356, home_team="Man City", away_team="Man United")
+res356 <- table(t(Match356$ResultH))
+res356 <- as.data.frame(res356)
+res356$Percent <- res356$Freq/100000 * 100
+order <- c("Win", "Loss", "Draw")
+res356 <- res356 %>%
+  slice(match(Var1, order))
+colnames(res356) <- c("Match Result", "Occurances", "Percent")
+res356$"Article Result" <- c(51.589, 22.779, 25.632)
+res356
+```
+The results of the article differ slightly from the results we found. This is likely due to the randomness of sampling, as well as the increased number of simulations the paper ran.
+
+# Further Exploration
+
+## Chelsea (Home) vs Liverpool (Away) 5/10/2015
+
+### Exploratory Plot of Outcomes Before Match
 
 ```{r graph1, echo=FALSE}
 chel <- Home_Function("Chelsea")
@@ -199,7 +242,7 @@ plot2 <- ggplot(liv) +
 plot_grid(plot1, plot2, labels="AUTO", ncol=1)
 ```
 
-## Prediction for Match
+### Prediction for Match
 Predictions are in terms of the home team   
 Actual result was a draw
 
@@ -216,9 +259,9 @@ colnames(res1497) <- c("Match Result", "Occurances", "Percent")
 res1497
 ```
 
-# Manchester City (Home) vs Newcastle (Away) 8/19/2013
+## Manchester City (Home) vs Newcastle (Away) 8/19/2013
 
-## Exploratory Plot of Outcomes Before Match
+### Exploratory Plot of Outcomes Before Match
 
 ```{r graph2, echo=FALSE}
 man <- Home_Function("Man City")
@@ -236,7 +279,7 @@ plot4 <- ggplot(new) +
 plot_grid(plot3, plot4, labels="AUTO", ncol=1)
 ```
 
-## Prediction for Match
+### Prediction for Match
 Predictions are in terms of the home team   
 Actual result was a home win
 
@@ -251,14 +294,13 @@ res770 <- res770 %>%
   slice(match(Var1, order))
 colnames(res770) <- c("Match Result", "Occurances", "Percent")
 res770
-
 ```
 
-# Tottenham (Home) vs Aston Villa (Away) 04/11/2015
+## Tottenham (Home) vs Aston Villa (Away) 04/11/2015
 
-## Exploratory Plot of Outcomes Before Match
+### Exploratory Plot of Outcomes Before Match
 
-```{r}
+```{r graph3, echo=FALSE}
 tott <- Home_Function("Tottenham")
 tott$Date <- as.Date(tott$Date, "%d/%m/%y")
 tott <- tott[1:73,]
@@ -274,11 +316,11 @@ p2 <- ggplot(av) +
 plot_grid(p1, p2, labels="AUTO", ncol=1)
 ```
 
-## Prediction for Match
+### Prediction for Match
 Predictions are in terms of the home team   
 Actual result was a home loss
 
-```{r pred2, echo=FALSE}
+```{r pred3, echo=FALSE}
 # Takes a couple minutes to run
 Match3151 <- mc_funct(match_id=3151, home_team="Tottenham", away_team="Aston Villa")
 res3151<- table(t(Match3151$ResultH))
