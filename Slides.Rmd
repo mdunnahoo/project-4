@@ -157,3 +157,4 @@ mc_funct <- function(match_id, away_team, home_team) {
 # Going Forward 
 
 In the next week we plan to continue to expand on our exploration of this data. We plan to use Monte Carlo simulations to predict the final rank of the two teams we have chosen which are Chelsea and Liverpool. We also hope to create a final contingency table that consists of the rank for these two teams as well as how many wins, losses, and draws they had in our simulations.
+
