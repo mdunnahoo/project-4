@@ -174,7 +174,7 @@ mc_funct <- function(match_id, away_team, home_team) {
 
 # Monte Carlo Estimation
 
-We estimated the lambda home and lambda away values, which are the expected goals scored by the home and away team respectively, using Monte Carlo. These lambda values are assumed to be independent Poisson distributed variables and are calculated using the last 19 matches for each team. The article ran 10,000,000 simulations, but due to our low computational power, we chose to run 100,000 simulations. The general purpose of Monte Carlo is to model the probability of different outcomes and reduce uncertainty. It is very useful for modeling probabilities that come from processes in which random variables intervene with each other making them difficult to predict. The purpose of the paper's Monte Carlo simulations is to devise a new way to calculate match importance which refers to the relationship between match results and the final outcome for a specific season. 
+We estimated the lambda home and lambda away values, which are the expected goals scored by the home and away team respectively, using Monte Carlo. These lambda values are assumed to be independent Poisson distributed variables and are calculated using the last 19 matches for each team. The article ran 10,000,000 simulations, but due to our low computational power, we chose to run 100,000 simulations. The general purpose of Monte Carlo is to model the probability of different outcomes and reduce uncertainty. It is very useful for modeling probabilities that come from processes in which random variables intervene with each other, making them difficult to predict. The purpose of the paper's Monte Carlo simulations is to devise a new way to calculate match importance which refers to the relationship between match results and the final outcome for a specific season. 
 
 $\lambda_{home}=\frac{\text{Average goals scored by home team + Average goals conceded by away team}}{2}$   
 $\lambda_{away}=\frac{\text{Average goals scored by away team + Average goals conceded by home team}}{2}$
@@ -201,12 +201,10 @@ plot02 <- ggplot(uni1) +
 plot_grid(plot01, plot02, labels="AUTO", ncol=1)
 
 ```
-The exploratory plot above, plot A, shows the outcomes of matches for Manchester City as the home team in the 2011-2012 season. Specifically, it includes all of Man City's home games leading up to the match that they played against Manchester United as the away team on April 30, 2012. The outcomes of the matches are measured as a win (three points), loss (one point) or draw (zero points). Manchester City won the vast majority of those matches and had very few losses. It doesn't appear Man City had any draws. The exploratory plot above, plot B, shows the outcomes of matches for Manchester United as the away team in the 2011-2012 season leading up to the team's match at Manchester City on April 30, 2012. Man United won most of those matches, had some losses and very few draws.
+The exploratory plot above, plot A, shows the outcomes of matches for Manchester City (Man City) as the home team in the 2011-2012 season. Specifically, it includes all of Man City's home games leading up to the match that they played against Manchester United (Man United) as the away team on April 30, 2012. The outcomes of the matches are measured as a win (three points), loss (one point) or draw (zero points). Manchester City won the vast majority of those matches and had very few losses. It doesn't appear that Man City had any draws. The exploratory plot above, plot B, shows the outcomes of matches for Manchester United as the away team in the 2011-2012 season leading up to the team's match at Manchester City on April 30, 2012. Man United won most of those matches, it had some losses and very few draws. From these exploratory plots it seems reasonable to guess that Manchester City would win the match against Manchester United. 
 
 
 ## Prediction for Match
-Predictions are in terms of the home team   
-Actual result was a home win (1-0)
 
 ```{r pred0, echo=FALSE}
 # Takes a couple minutes to run
@@ -221,6 +219,9 @@ colnames(res356) <- c("Match Result", "Occurances", "Percent")
 res356$"Article Result" <- c(51.589, 22.779, 25.632)
 res356
 ```
+Predictions are in terms of the home team   
+Actual result was a home win (1-0)
+We created a table for the match results of 
 found the 
 The results of the article differ slightly from the results we found. This is likely due to the randomness of sampling, as well as the increased number of simulations the paper ran.
 compare this table to one in article 
@@ -246,10 +247,9 @@ plot2 <- ggplot(liv) +
   geom_point(aes(Date, outcome, color=outcome)) + ggtitle("Liverpool")
 plot_grid(plot1, plot2, labels="AUTO", ncol=1)
 ```
+The exploratory plot above, plot A, shows the outcomes of matches for Chelsea as the home team in the 2014-2015 season. It shows the outcomes of Chelsea's home games leading up to the match that they played against Liverpool as the away team on May 10, 2015. Chelsea won the majority of those matches and had very few losses and even less draws. The exploratory plot above, plot B, shows the outcomes of matches for Liverpool as the away team in the 2014-2015 season leading up to the team's match at and against Chelsea. Liverpool won the majority of its matches, had some draws and even fewer losses. From these exploratory plots it is difficult to guess which team would have won the match, but Chelsea seems to be a strong guess because the team appears to have a few more wins than Liverpool. 
 
 ### Prediction for Match
-Predictions are in terms of the home team   
-Actual result was a draw
 
 ```{r pred, echo=FALSE}
 # Takes a couple minutes to run
@@ -264,6 +264,9 @@ res1497 <- res1497 %>%
 colnames(res1497) <- c("Match Result", "Occurances", "Percent")
 res1497
 ```
+Predictions are in terms of the home team   
+Actual result was a draw
+DO THIS!!!!!!!!
 
 ## Manchester City (Home) vs Newcastle (Away) 8/19/2013
 
@@ -284,12 +287,10 @@ plot4 <- ggplot(new) +
   geom_point(aes(Date, outcome, color=outcome)) + ggtitle("Newcastle")
 plot_grid(plot3, plot4, labels="AUTO", ncol=1)
 ```
-The exploratory plot above, plot A, shows the outcomes of matches for Manchester City as the home team in the 2013-2014 season. Specifically, it includes all of Man City's home games leading up to the match that they played against Newcastle as the away team on August 19, 2013. Manchester City won the vast majority of those matches and had very few losses and even less draws. The exploratory plot above, plot B, shows the outcomes of matches for Newcastle as the away team in the 2011-2012 season leading up to the team's match at and against Man City on August 19, 2013. Newcastle won most of those matches, had some losses and very few draws. 
+The exploratory plot above, plot A, shows the outcomes of matches for Manchester City as the home team in the 2013-2014 season. Specifically, it includes all of Man City's home games leading up to the match that they played against Newcastle as the away team on August 19, 2013. Manchester City won the vast majority of those matches and had very few losses and even less draws. The exploratory plot above, plot B, shows the outcomes of matches for Newcastle as the away team in the 2011-2012 season leading up to the team's match at and against Man City on August 19, 2013. Newcastle won most of those matches, had some losses and very few draws. From these exploratory plots it seems reasonable to guess that Manchester City would win the match against Newcastle. 
 
 
 ### Prediction for Match
-Predictions are in terms of the home team   
-Actual result was a home win
 
 ```{r pred2, echo=FALSE}
 # Takes a couple minutes to run
@@ -303,6 +304,9 @@ res770 <- res770 %>%
 colnames(res770) <- c("Match Result", "Occurances", "Percent")
 res770
 ```
+Predictions are in terms of the home team   
+Actual result was a home win
+DO THIS!!!!!!!!
 
 ## Tottenham (Home) vs Aston Villa (Away) 04/11/2015
 
@@ -324,12 +328,10 @@ p2 <- ggplot(av) +
 plot_grid(p1, p2, labels="AUTO", ncol=1)
 ```
 
-The exploratory plot above, plot A, shows the outcomes of matches for Tottenham as the home team in the 2014-2015 season. Specifically, it includes all of Tottenham's home games leading up to the match that they played against Aston Villa as the away team on April 11, 2015. Tottenham won the vast majority of those matches and had very few losses and draws. The exploratory plot above, plot B, shows the outcomes of matches for Aston Villa as the away team in the 2014-2015 season leading up to the team's match at and against Tottenham on April 11, 2015. Aston Villa won some of its matches, but its matches mainly resulted in draws and losses. 
+The exploratory plot above, plot A, shows the outcomes of matches for Tottenham as the home team in the 2014-2015 season. Specifically, it includes all of Tottenham's home games leading up to the match that they played against Aston Villa as the away team on April 11, 2015. Tottenham won the vast majority of those matches and had very few losses and draws. The exploratory plot above, plot B, shows the outcomes of matches for Aston Villa as the away team in the 2014-2015 season leading up to the team's match at and against Tottenham on April 11, 2015. Aston Villa won some of its matches, but its matches mainly resulted in draws and losses. From this data, we predict that Tottenham should have won the match against Aston Villa. 
 
 
 ### Prediction for Match
-Predictions are in terms of the home team   
-Actual result was a home loss
 
 ```{r pred3, echo=FALSE}
 # Takes a couple minutes to run
@@ -343,8 +345,11 @@ res3151 <- res3151 %>%
 colnames(res3151) <- c("Match Result", "Occurances", "Percent")
 res3151
 ```
+Predictions are in terms of the home team   
+Actual result was a home loss
+DO THIS!!!!!!!!
 
-# Estimating final season ranking
+# Estimating Final Season Ranking
 
 ```{r, echo=FALSE}
 teams1415 <- unique(S14_15$HomeTeam)
