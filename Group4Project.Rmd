@@ -344,50 +344,65 @@ res3151
 
 # Estimating final season ranking
 
-```{r secondmc, echo=FALSE}
-
-# edit to take the matches within the season as past data to create lambdas, ...
-
-mc2_funct <- function(match_id, away_team, home_team) {
-  home_df_tail <- home_df2 %>% filter(Id < match_id) %>% group_by(HomeTeam) %>% do(tail(., 19))
-  away_df_tail <- away_df2 %>% filter(Id < match_id) %>% group_by(AwayTeam) %>% do(tail(., 19))
-  
-  home_t <- home_df_tail[home_df_tail$HomeTeam==home_team,]
-  avg_goalsh <- sum(home_t$FTHG, 19)/19
-  avg_goals_concededh <- sum(home_t$FTAG, 19)/19
-  
-  away_t <- away_df_tail[away_df_tail$AwayTeam==away_team,]
-  avg_goalsa <- sum(away_t$FTAG, 19)/19
-  avg_goals_concededa <- sum(away_t$FTHG, 19)/19
-  
-  lam_home_val <- (avg_goalsh + avg_goals_concededa)/2 
-  lam_away_val <- (avg_goalsa + avg_goals_concededh)/2
-  
-  # iterations are now 1000 instead of 100000
-  m <- 1000 
-  matches <- data.frame(Home=rep(NA,m), Away=rep(NA,m), ResultH=rep(NA,m), ResultA=rep(NA,m))
-  for (i in 1:m) {
-    home_goals <- rpois(1,lam_home_val)
-    away_goals <- rpois(1,lam_away_val)
-    matches[i,1] <- home_goals
-    matches[i,2] <- away_goals
-    if (home_goals > away_goals) {
-      matches[i,3] <- "Win"
-      matches[i,4] <- "Loss"
-    }
-    if (home_goals < away_goals) {
-      matches[i,3] <- "Loss"
-      matches[i,4] <- "Win"
-    }
-    if (home_goals == away_goals) {
-      matches[i,3] <- "Draw"
-      matches[i,4] <- "Draw"
-    }
+```{r}
+teams1415 <- unique(S14_15$HomeTeam)
+S14_15$HomePoints <- rep(NA, length(S14_15$Date))
+S14_15$AwayPoints <- rep(NA, length(S14_15$Date))
+for(i in 1:length(S14_15$HomePoints)){
+  if(S14_15$FTR[i] == "H"){
+    S14_15$HomePoints[i] <- 3
+    S14_15$AwayPoints[i] <- 0
   }
-  matches[,3] <- as.factor(matches[,3])
-  matches[,4] <- as.factor(matches[,4])
-  return(matches)
+  if(S14_15$FTR[i] == "A"){
+    S14_15$HomePoints[i] <- 0
+    S14_15$AwayPoints[i] <- 3
+  }
+  if(S14_15$FTR[i] == "D"){
+    S14_15$HomePoints[i] <- 1
+    S14_15$AwayPoints[i] <- 1
+  }
 }
+head(S14_15)
+hpts <- S14_15 %>%
+  group_by(HomeTeam) %>%
+  summarise(HomePoints = sum(HomePoints))
+
+apts <- S14_15 %>%
+  group_by(AwayTeam) %>%
+  summarise(AwayPoints = sum(AwayPoints))
+
+tpts <- cbind(apts, hpts)
+
+tpts$TotalPoints <- tpts$AwayPoints + tpts$HomePoints
+tpts
+
+tpts <- tpts[order(-tpts$TotalPoints),]
+```
+
+```{r}
+#match 1501
+Match1501 <- mc_funct(match_id = 1501, home_team = "Liverpool", away_team = "Crystal Palace")
+res1501<- table(t(Match1501$ResultH))
+res1501 <- as.data.frame(res1501)
+res1501$Percent <- res1501$Freq/100000 * 100
+order <- c("Win", "Loss", "Draw")
+res1501 <- res1501 %>%
+  slice(match(Var1, order))
+colnames(res1501) <- c("Match Result", "Occurances", "Percent")
+res1501
+```
+
+```{r}
+#match 1520
+Match1520 <- mc_funct(match_id = 1520, home_team = "Stoke", away_team = "Liverpool")
+res1520<- table(t(Match1520$ResultH))
+res1520 <- as.data.frame(res1520)
+res1520$Percent <- res1520$Freq/100000 * 100
+order <- c("Win", "Loss", "Draw")
+res1520 <- res1520 %>%
+  slice(match(Var1, order))
+colnames(res1520) <- c("Match Result", "Occurances", "Percent")
+res1520
 ```
 
 # References 
