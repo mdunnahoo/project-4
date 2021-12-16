@@ -172,9 +172,10 @@ mc_funct <- function(match_id, away_team, home_team) {
 
 ```
 
-# MC Estimation
+# Monte Carlo Estimation
 
-We estimated the lambda home and lambda away values, which are the expected goals scored by the home and away team respectively, using Monte Carlo. These lambda values are assumed to be independent Poisson distributed variables and are calculated using the last 19 matches for each team. The article ran 10,000,000 simulations, but due to our low computational power, we chose to run 100,000 simulations.        
+We estimated the lambda home and lambda away values, which are the expected goals scored by the home and away team respectively, using Monte Carlo. These lambda values are assumed to be independent Poisson distributed variables and are calculated using the last 19 matches for each team. The article ran 10,000,000 simulations, but due to our low computational power, we chose to run 100,000 simulations. The general purpose of Monte Carlo is to model the probability of different outcomes and reduce uncertainty. The specific
+purpose of the paper's Monte Carlo simulations is to 
 
 $\lambda_{home}=\frac{\text{Average goals scored by home team + Average goals conceded by away team}}{2}$   
 $\lambda_{away}=\frac{\text{Average goals scored by away team + Average goals conceded by home team}}{2}$
