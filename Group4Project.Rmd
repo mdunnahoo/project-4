@@ -344,7 +344,7 @@ res3151
 
 # Estimating final season ranking
 
-```{r}
+```{r, echo=FALSE}
 teams1415 <- unique(S14_15$HomeTeam)
 S14_15$HomePoints <- rep(NA, length(S14_15$Date))
 S14_15$AwayPoints <- rep(NA, length(S14_15$Date))
@@ -379,7 +379,7 @@ tpts
 tpts <- tpts[order(-tpts$TotalPoints),]
 ```
 
-```{r}
+```{r, echo=FALSE}
 #match 1501
 set.seed(400)
 Match1501 <- mc_funct(match_id = 1501, home_team = "Liverpool", away_team = "Crystal Palace")
@@ -393,7 +393,7 @@ colnames(res1501) <- c("Match Result", "Occurances", "Percent")
 res1501
 ```
 
-```{r}
+```{r, echo=FALSE}
 #match 1520
 set.seed(400)
 Match1520 <- mc_funct(match_id = 1520, home_team = "Stoke", away_team = "Liverpool")
@@ -499,18 +499,23 @@ probpoints <- c(3, 2, 5, 2, 1, 4, 5, 4, 7, 2, 1, 4, 1, 0, 3, 4, 3, 6, 5, 4, 7, 4
 
 probdf <- rbind(probdf, probpoints)
 
+r6 <- data.frame(NA)
+r5 <- data.frame(NA)
+rt5 <- data.frame(NA)
+rt4 <- data.frame(NA)
+
 for(i in 1:ncol(probdf)){
   if(probdf[2, i] < 3){
-    r6[i] <- sum(probdf[1, i])
+    r6 <- rbind(r6, sum(probdf[1, i]))
   }
   if(probdf[2, i] > 3 & probdf[2, i] < 9){
-    r5[i] <- sum(probdf[1, i])
+    r5 <- rbind(r5, sum(probdf[1, i]))
   }
   if(probdf[2, i] == 3){
-    rt5[i] <- sum(probdf[1, i])
+    rt5 <- rbind(rt5, sum(probdf[1, i]))
   }
   if(probdf[2, i] == 9){
-    rt4[i] <- sum(probdf[1, i])
+    rt4 <- rbind(rt4, sum(probdf[1, i]))
   }
 }
 
@@ -525,8 +530,8 @@ knitr::kable(resdf, caption = "Ranking Probabilities for Liverpool", "pipe", dig
 ```
 
 
-Using the Monte Carlo simulation method that we had used for predicting outcomes of a few matches, the next step was to try and estimate a team's final ranking. The team we chose to do this estimate for was Liverpool. When looking at the actual final rankings of the teams, it seemed uncontested that Chelsea would end up ranking first which is why we ended up choosing Liverpool.
-In order to get the final ranking, we first conducted the Monte Carlo simulation on the Chelsea versus Liverpool match we had picked for the last step. We then ran this simulation two more times on the matches Liverpool had left in their season. Once we had these results we could look into the probabilities of each final ranking for Liverpool. In order to figure out the other team's final rankings, we took the results of all of their home and away games and converted them to points depending on that result, 3 for a win, 1 for a draw, and 0 for a loss. Once converted to points, we were able to add up the total amount of points for each team and sort them to see each teams actual final ranking from the 2014-15 season. Since we knew all of the other team's final rankings, we were able to fit Liverpool into the results where they belonged based on the Monte Carlo results.
+Using the Monte Carlo simulation method that we had used for predicting outcomes of a few matches, the next step was to try and estimate a team's final ranking. The team we chose to do this estimate for was Liverpool. When looking at the actual final rankings of the teams, it seemed uncontested that Chelsea would end up ranking first which is why we ended up choosing Liverpool.   
+In order to get the final ranking, we first conducted the Monte Carlo simulation on the Chelsea versus Liverpool match we had picked for the last step. We then ran this simulation two more times on the matches Liverpool had left in their season. Once we had these results we could look into the probabilities of each final ranking for Liverpool. In order to figure out the other team's final rankings, we took the results of all of their home and away games and converted them to points depending on that result, 3 for a win, 1 for a draw, and 0 for a loss. Once converted to points, we were able to add up the total amount of points for each team and sort them to see each teams actual final ranking from the 2014-15 season. Since we knew all of the other team's final rankings, we were able to fit Liverpool into the results where they belonged based on the Monte Carlo results.   
 The table above shows the probability of each possible ranking for Liverpool based on their previous matches in the season and the Monte Carlo simulations. The overall probabilities of all possible scenarios for Liverpool's final three games based on our simulations were calculated. Then based on these probabilities, the total amount of possible points for those last three games was calculated. This total was then added to Liverpool's point total from their previous games in the season. If the point value of the final three games was less than 3, Liverpool would be ranked 6th. If the point value was between 3 and 9, they would be ranked 5th. If the point value was exactly 3, they would end up tying for 5th, which would cause the rank to be determined by some other factor which we do not have the data for. Finally, if the point value was exactly 9, they would end up tying for 4th. The probabilities of each of these scenarios were calculated and the most likely result was that they would end up ranking 5th with a probability of about 68.719%. In the actual results, they ended up placing 6th, which our simulation said would only happen with a probability of 16.95%.
 
 # References 
