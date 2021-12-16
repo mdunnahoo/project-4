@@ -281,6 +281,8 @@ plot4 <- ggplot(new) +
   geom_point(aes(Date, outcome, color=outcome)) + ggtitle("Newcastle")
 plot_grid(plot3, plot4, labels="AUTO", ncol=1)
 ```
+The exploratory plot above, plot A, shows the outcomes of matches for Manchester City as the home team in the 2013-2014 season. Specifically, it includes all of Man City's home games leading up to the match that they played against Newcastle as the away team on August 19, 2013. Manchester City won the vast majority of those matches and had very few losses and even less draws. The exploratory plot above, plot B, shows the outcomes of matches for Newcastle as the away team in the 2011-2012 season leading up to the team's match at and against Man City on August 19, 2013. Newcastle won most of those matches, had some losses and very few draws. 
+
 
 ### Prediction for Match
 Predictions are in terms of the home team   
@@ -318,6 +320,9 @@ p2 <- ggplot(av) +
   geom_point(aes(Date, outcome, color=outcome)) + ggtitle("Aston Villa")
 plot_grid(p1, p2, labels="AUTO", ncol=1)
 ```
+
+The exploratory plot above, plot A, shows the outcomes of matches for Tottenham as the home team in the 2014-2015 season. Specifically, it includes all of Tottenham's home games leading up to the match that they played against Aston Villa as the away team on April 11, 2015. Tottenham won the vast majority of those matches and had very few losses and draws. The exploratory plot above, plot B, shows the outcomes of matches for Aston Villa as the away team in the 2014-2015 season leading up to the team's match at and against Tottenham on April 11, 2015. Aston Villa won some of its matches, but its matches mainly resulted in draws and losses. 
+
 
 ### Prediction for Match
 Predictions are in terms of the home team   
