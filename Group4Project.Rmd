@@ -252,6 +252,7 @@ Actual result was a draw
 
 ```{r pred, echo=FALSE}
 # Takes a couple minutes to run
+set.seed(400)
 Match1497 <- mc_funct(match_id=1497, home_team="Chelsea", away_team="Liverpool")
 res1497 <- table(t(Match1497$ResultH))
 res1497 <- as.data.frame(res1497)
@@ -381,6 +382,7 @@ tpts <- tpts[order(-tpts$TotalPoints),]
 
 ```{r}
 #match 1501
+set.seed(400)
 Match1501 <- mc_funct(match_id = 1501, home_team = "Liverpool", away_team = "Crystal Palace")
 res1501<- table(t(Match1501$ResultH))
 res1501 <- as.data.frame(res1501)
@@ -394,6 +396,7 @@ res1501
 
 ```{r}
 #match 1520
+set.seed(400)
 Match1520 <- mc_funct(match_id = 1520, home_team = "Stoke", away_team = "Liverpool")
 res1520<- table(t(Match1520$ResultH))
 res1520 <- as.data.frame(res1520)
@@ -404,10 +407,128 @@ res1520 <- res1520 %>%
 colnames(res1520) <- c("Match Result", "Occurances", "Percent")
 res1520
 ```
+```{r}
+# win all three
+www <- .51999*.45705*.44566
+
+# win, win, lose
+wwl <- .51999*.45705*.36241
+
+# win, win, draw
+wwd <- .51999*.45705*.19193
+
+# win, lose, win
+wlw <- .51999*.31466*.44566
+
+# win, draw, win
+wdw <- .51999*.22829*.44566
+
+# win, draw, lose
+wdl <- .51999*.22829*.36241
+
+# win, lose, draw
+wld <- .51999*.31466*.19193
+
+# win, draw, draw
+wdd <- .51999*.22829*.19193
+
+# win, lose, lose
+wll <- .51999*.31466*.36241
+
+
+
+# lose, win, win
+lww <- .2918*.45705*.44566
+
+# lose, win, lose
+lwl <- .2918*.45705*.36241
+
+# lose, win, draw
+lwd <- .2918*.45705*.19193
+
+# lose, lose, win
+llw <- .2918*.31466*.44566
+
+# lose, draw, win
+ldw <- .2918*.22829*.44566
+
+# lose, draw, lose
+ldl <- .2918*.22829*.36241
+
+# lose, lose, draw
+lld <- .2918*.31466*.19193
+
+# lose, draw, draw
+ldd <- .2918*.22829*.19193
+
+# lose, lose, lose
+lll <- .2918*.31466*.36241
+
+
+
+
+# draw, win, win
+dww <- .18821*.45705*.44566
+
+# draw, win, lose
+dwl <- .18821*.45705*.36241
+
+# draw, win, draw
+dwd <- .18821*.45705*.19193
+
+# draw, lose, win
+dlw <- .18821*.31466*.44566
+
+# draw, draw, win
+ddw <- .18821*.22829*.44566
+
+# draw, draw, lose
+ddl <- .18821*.22829*.36241
+
+# draw, lose, draw
+dld <- .18821*.31466*.19193
+
+# draw, draw, draw
+ddd <- .18821*.22829*.19193
+
+# draw, lose, lose
+dll <- .18821*.31466*.36241
+
+probdf <- data.frame(ddd, ddl, ddw, dld, dll, dlw, dwd, dwl, dww, ldd, ldl, ldw, lld, lll, llw, lwd, lwl, lww, wdd, wdl, wdw, wld, wll, wlw, wwd, wwl, www)
+
+probpoints <- c(3, 2, 5, 2, 1, 4, 5, 4, 7, 2, 1, 4, 1, 0, 3, 4, 3, 6, 5, 4, 7, 4, 3, 6, 7, 6, 9)
+
+probdf <- rbind(probdf, probpoints)
+
+for(i in 1:ncol(probdf)){
+  if(probdf[2, i] < 3){
+    r6[i] <- sum(probdf[1, i])
+  }
+  if(probdf[2, i] > 3 & probdf[2, i] < 9){
+    r5[i] <- sum(probdf[1, i])
+  }
+  if(probdf[2, i] == 3){
+    rt5[i] <- sum(probdf[1, i])
+  }
+  if(probdf[2, i] == 9){
+    rt4[i] <- sum(probdf[1, i])
+  }
+}
+
+r5 <- na.omit(r5)
+r6 <- na.omit(r6)
+rt4 <- na.omit(rt4)
+rt5 <- na.omit(rt5)
+
+resdf <- data.frame("Rank 5" = sum(r5), "Rank 6" = sum(r6), "Rank T4" = sum(rt4), "Rank T5" = sum(rt5))
+
+knitr::kable(resdf, caption = "Ranking Probabilities for Liverpool", "pipe", digits = 5)
+```
 
 
 Using the Monte Carlo simulation method that we had used for predicting outcomes of a few matches, the next step was to try and estimate a team's final ranking. The team we chose to do this estimate for was Liverpool. When looking at the actual final rankings of the teams, it seemed uncontested that Chelsea would end up ranking first which is why we ended up choosing Liverpool.
 In order to get the final ranking, we first conducted the Monte Carlo simulation on the Chelsea versus Liverpool match we had picked for the last step. We then ran this simulation two more times on the matches Liverpool had left in their season. Once we had these results we could look into the probabilities of each final ranking for Liverpool. In order to figure out the other team's final rankings, we took the results of all of their home and away games and converted them to points depending on that result, 3 for a win, 1 for a draw, and 0 for a loss. Once converted to points, we were able to add up the total amount of points for each team and sort them to see each teams actual final ranking from the 2014-15 season. Since we knew all of the other team's final rankings, we were able to fit Liverpool into the results where they belonged based on the Monte Carlo results.
+ 
 # References 
 
 "Data Files: England". *Football-Data.co.uk*, 15 December 2021, http://www.football-data.co.uk/englandm.php
