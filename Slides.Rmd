@@ -251,4 +251,9 @@ res770
 
 # Going Forward 
 
+<<<<<<< HEAD
+In the next week we plan to continue to expand on our exploration of this data. We plan to use Monte Carlo simulations to predict the final rank of the two teams we have chosen which are Chelsea and Liverpool. We also hope to create a final contingency table that consists of the rank for these two teams as well as how many wins, losses, and draws they had in our simulations.
+
+=======
 In the next week we plan to continue to expand on our exploration of this data. We plan to integrate code into our Monte Carlo function to predict the final rank of any two teams we have chosen at the time of a specific match. We also hope to add to our final contingency table a variable that consists of the probability of the ranks for these two teams to add to the number of wins, losses, and draws they had in our simulations.
+>>>>>>> 362cf034477e23faa3976c7a390c9b3f3c6385b6

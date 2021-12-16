@@ -1,0 +1,184 @@
+---
+title: "Project RMD"
+author: "Megan Dunnahoo, Jasmine DeMeyer, Macey Dodd"
+date: "11/30/2021"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+set.seed(400)
+```
+
+
+```{r data}
+S11_12 <- read.csv("2011-2012_Match.csv")
+S12_13 <- read.csv("2012-2013_Match.csv")
+S13_14 <- read.csv("2013-2014_Match.csv")
+S14_15 <- read.csv("2014-2015_Match.csv")
+```
+
+Choose Chelsea as home team and Liverpool as away team (match date of )
+
+```{r data_manip}
+
+# Keep only necessary columns
+S11_12 <- S11_12[,2:7]
+S12_13 <- S12_13[,2:7]
+S13_14 <- S13_14[,2:7]
+S14_15 <- S14_15[,2:7]
+
+# Add id to keep order
+S11_12$Id <- seq(1:nrow(S11_12))
+S12_13$Id <- seq(381,760)
+S13_14$Id <- seq(761,1140)
+S14_15$Id <- seq(1141,1520)
+
+Away_Function <- function(team_name) {
+  
+  # Subset and combine away team matches
+  away <- S11_12[S11_12$AwayTeam == team_name,]
+  away <- rbind(away, S12_13[S12_13$AwayTeam == team_name,])
+  away <- rbind(away, S13_14[S13_14$AwayTeam == team_name,])
+  away <- rbind(away, S14_15[S14_15$AwayTeam == team_name,])
+  
+  # Create new columns
+  away$num_points <- rep(NA, length(away$FTR))
+  away$outcome <- rep(NA, length(away$FTR))
+  
+  # Fill new columns
+  for (i in 1:length(away$num_points)) {
+    if (away$FTR[i] == "A") {
+      away$num_points[i] <- 3
+      away$outcome[i] <- "W"
+    }
+    if (away$FTR[i] == "H") {
+      away$num_points[i] <- 0
+      away$outcome[i] <- "L"
+    }
+    if (away$FTR[i] == "D") {
+      away$num_points[i] <- 1
+      away$outcome[i] <- "D"
+    }
+  }
+  return(away)
+}
+
+Home_Function <- function(team_name) {
+  
+  # Subset and combine home team matches
+  home <- S11_12[S11_12$HomeTeam == team_name,]
+  home <- rbind(home, S12_13[S12_13$HomeTeam == team_name,])
+  home <- rbind(home, S13_14[S13_14$HomeTeam == team_name,])
+  home <- rbind(home, S14_15[S14_15$HomeTeam == team_name,])
+  
+  # Create new columns
+  home$num_points <- rep(NA, length(home$FTR))
+  home$outcome <- rep(NA, length(home$FTR))
+  
+  # Fill new columns
+  for (i in 1:length(home$num_points)) {
+    if (home$FTR[i] == "A") {
+      home$num_points[i] <- 0
+      home$outcome[i] <- "L"
+    }
+    if (home$FTR[i] == "H") {
+      home$num_points[i] <- 3
+      home$outcome[i] <- "W"
+    }
+    if (home$FTR[i] == "D") {
+      home$num_points[i] <- 1
+      home$outcome[i] <- "D"
+    }
+  }
+  return(home)
+}
+
+teams <- unique(S11_12$HomeTeam)
+for(i in teams) {
+  nam_h <- paste(i, "Home", sep = "_")
+  assign(nam_h, Home_Function(i))
+  nam_a <- paste(i, "Away", sep = "_")
+  assign(nam_a, Away_Function(i))
+}
+
+Chelsea_Home
+
+Fulham_Away
+
+```
+
+
+```{r}
+#Jasmine's test section
+
+avg_goalsh <- sum(tail(Chelsea_Home$FTHG, 19))/19
+avg_goals_concededh <- sum(tail(Chelsea_Home$FTAG, 19))/19
+
+avg_goalsa <- sum(tail(Liverpool_Away$FTAG, 19))/19
+avg_goals_concededa <- sum(tail(Liverpool_Away$FTHG, 19))/19
+
+lam_home <- (avg_goalsh + avg_goals_concededa)/2
+lam_away <- (avg_goalsa + avg_goals_concededh)/2
+
+away_df <- cbind(tail(Arsenal_Away, 19), tail(`Aston Villa_Away`,19), tail(Blackburn_Away, 19), tail(Bolton_Away, 19), tail(Chelsea_Away, 19), tail(Everton_Away, 19), tail(Fulham_Away, 19), tail(Liverpool_Away, 19), tail(`Man City_Away`, 19), tail(`Man United_Away`, 19), tail(Newcastle_Away, 19), tail(Norwich_Away, 19), tail(QPR_Away, 19), tail(Stoke_Away, 19), tail(Sunderland_Away, 19), tail(Swansea_Away, 19), tail(Tottenham_Away, 19), tail(`West Brom_Away`, 19), tail(Wigan_Away, 19), tail(Wolves_Away, 19))
+
+home_df <- cbind(tail(Arsenal_Home, 19), tail(`Aston Villa_Home`,19), tail(Blackburn_Home, 19), tail(Bolton_Home, 19), tail(Chelsea_Home, 19), tail(Everton_Home, 19), tail(Fulham_Home, 19), tail(Liverpool_Home, 19), tail(`Man City_Away`, 19), tail(`Man United_Away`, 19), tail(Newcastle_Away, 19), tail(Norwich_Home, 19), tail(QPR_Home, 19), tail(Stoke_Home, 19), tail(Sunderland_Home, 19), tail(Swansea_Home, 19), tail(Tottenham_Home, 19), tail(`West Brom_Home`, 19), tail(Wigan_Home, 19), tail(Wolves_Home, 19))
+
+
+
+
+```
+
+```{r mc}
+# number of MC iterations
+m <- 1000
+lam_away <- rep(NA, m)
+lam_home <- rep(NA, m)
+for (i in 1:m) {
+  lam_away[i] <- rpois(1, away)
+  lam_home[i] <- rpois(1, home)
+}
+
+away_df2 <- rbind(Arsenal_Away,`Aston Villa_Away`,Blackburn_Away,Bolton_Away,Chelsea_Away,Everton_Away,Fulham_Away, Liverpool_Away,`Man City_Away`,`Man United_Away`,Newcastle_Away,Norwich_Away,QPR_Away,Stoke_Away,Sunderland_Away, Swansea_Away,Tottenham_Away,`West Brom_Away`,Wigan_Away,Wolves_Away)
+
+away_df2 %>% group_by(AwayTeam)
+
+home_df2 <- rbind(Arsenal_Home,`Aston Villa_Home`,Blackburn_Home,Bolton_Home,Chelsea_Home,Everton_Home,Fulham_Home, Liverpool_Home,`Man City_Home`,`Man United_Home`,Newcastle_Home,Norwich_Home,QPR_Home,Stoke_Home,Sunderland_Home, Swansea_Home,Tottenham_Home,`West Brom_Home`,Wigan_Home,Wolves_Home)
+
+home_df2 %>% group_by(HomeTeam)
+
+
+mc_funct <- function(match_id, away_team, home_team) {
+  home_df_tail <- home_df2 %>% filter(Id < match_id) %>% group_by(HomeTeam) %>% do(tail(., 19))
+  away_df_tail <- away_df2 %>% filter(Id < match_id) %>% group_by(AwayTeam) %>% do(tail(., 19))
+  
+  home_t <- home_df_tail[home_df_tail$HomeTeam==home_team,]
+  avg_goalsh <- sum(home_t$FTHG, 19)/19
+  avg_goals_concededh <- sum(home_t$FTAG, 19)/19
+  lam_home_val <- (avg_goalsh + avg_goals_concededa)/2 
+  
+  away_t <- away_df_tail[away_df_tail$AwayTeam==away_team,]
+  avg_goalsa <- sum(away_t$FTAG, 19)/19
+  avg_goals_concededa <- sum(away_t$FTHG, 19)/19
+  lam_away_val <- (avg_goalsa + avg_goals_concededh)/2
+  
+  m <- 1000000
+  matches <- matrix(ncol=3, nrow=m)
+  #matches[1] Home=rep(NA,m), Away=rep(NA,m), Result=rep(NA,m)
+}
+
+rpois(n=1, lambda=lam_home_val)
+
+```
+
+
+```{r}
+#Jasmine test rank
+head(S11_12)
+#idea: get avg goals/avg goals conceded for each team and make data frame
+#loop through each team as home against each team as away to get lambda values
+```
+
+
+
