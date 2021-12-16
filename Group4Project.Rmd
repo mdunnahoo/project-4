@@ -201,6 +201,9 @@ plot02 <- ggplot(uni1) +
 plot_grid(plot01, plot02, labels="AUTO", ncol=1)
 
 ```
+The exploratory plot above, plot A, shows the outcomes of matches for Manchester City as the home team in the 2011-2012 season. Specifically, it includes all of Man City's home games leading up to the match that they played against Manchester United as the away team on April 30, 2012. The outcomes of the matches are measured as a win (three points), loss (one point) or draw (zero points). Manchester City won the vast majority of those matches and had very few losses. It doesn't appear Man City had any draws. The exploratory plot above, plot B, shows the outcomes of matches for Manchester United as the away team in the 2011-2012 season leading up to the team's match at Manchester City on April 30, 2012. Man United won most of those matches, had some losses and very few draws.
+
+
 ## Prediction for Match
 Predictions are in terms of the home team   
 Actual result was a home win (1-0)
