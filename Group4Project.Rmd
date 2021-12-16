@@ -405,4 +405,7 @@ colnames(res1520) <- c("Match Result", "Occurances", "Percent")
 res1520
 ```
 
+
+Using the Monte Carlo simulation method that we had used for predicting outcomes of a few matches, the next step was to try and estimate a team's final ranking. The team we chose to do this estimate for was Liverpool. When looking at the actual final rankings of the teams, it seemed uncontested that Chelsea would end up ranking first which is why we ended up choosing Liverpool.
+In order to get the final ranking, we first conducted the Monte Carlo simulation on the Chelsea versus Liverpool match we had picked for the last step. We then ran this simulation two more times on the matches Liverpool had left in their season. Once we had these results we could look into the probabilities of each final ranking for Liverpool. In order to figure out the other team's final rankings, we took the results of all of their home and away games and converted them to points depending on that result, 3 for a win, 1 for a draw, and 0 for a loss. Once converted to points, we were able to add up the total amount of points for each team and sort them to see each teams actual final ranking from the 2014-15 season. Since we knew all of the other team's final rankings, we were able to fit Liverpool into the results where they belonged based on the Monte Carlo results.
 # References 
