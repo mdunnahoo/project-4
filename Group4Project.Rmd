@@ -14,7 +14,7 @@ set.seed(400)
 # Article 
 
 We chose the article "Using Monte Carlo Simulation to Calculate Match Importance:
-The Case of English Premier League" by Jiri Lahvicka. This article describes the process of using Monte Carlo simulations to predict the outcome of a match given the results of previous matches. It specifically predicts for the Manchester City vs Manchester United game in 2012. It then goes further and uses Monte Carlo simulations to predict the final ranking of the teams in the English Premier League at the end of a season. 
+The Case of English Premier League" by Jiri Lahvicka. This article describes the process of using Monte Carlo simulations to predict the outcome of a match given the results of previous matches. It specifically predicts the result of the Manchester City versus the Manchester United game in 2012. It then goes further and uses Monte Carlo simulations to predict the final ranking of the teams in the English Premier League at the end of a season. 
 
 # Background Information
 
@@ -174,8 +174,7 @@ mc_funct <- function(match_id, away_team, home_team) {
 
 # Monte Carlo Estimation
 
-We estimated the lambda home and lambda away values, which are the expected goals scored by the home and away team respectively, using Monte Carlo. These lambda values are assumed to be independent Poisson distributed variables and are calculated using the last 19 matches for each team. The article ran 10,000,000 simulations, but due to our low computational power, we chose to run 100,000 simulations. The general purpose of Monte Carlo is to model the probability of different outcomes and reduce uncertainty. The specific
-purpose of the paper's Monte Carlo simulations is to 
+We estimated the lambda home and lambda away values, which are the expected goals scored by the home and away team respectively, using Monte Carlo. These lambda values are assumed to be independent Poisson distributed variables and are calculated using the last 19 matches for each team. The article ran 10,000,000 simulations, but due to our low computational power, we chose to run 100,000 simulations. The general purpose of Monte Carlo is to model the probability of different outcomes and reduce uncertainty. It is very useful for modeling probabilities that come from processes in which random variables intervene with each other making them difficult to predict. The purpose of the paper's Monte Carlo simulations is to devise a new way to calculate match importance which refers to the relationship between match results and the final outcome for a specific season. 
 
 $\lambda_{home}=\frac{\text{Average goals scored by home team + Average goals conceded by away team}}{2}$   
 $\lambda_{away}=\frac{\text{Average goals scored by away team + Average goals conceded by home team}}{2}$
