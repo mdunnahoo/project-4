@@ -221,7 +221,9 @@ colnames(res356) <- c("Match Result", "Occurances", "Percent")
 res356$"Article Result" <- c(51.589, 22.779, 25.632)
 res356
 ```
+found the 
 The results of the article differ slightly from the results we found. This is likely due to the randomness of sampling, as well as the increased number of simulations the paper ran.
+compare this table to one in article 
 
 # Further Exploration
 
@@ -406,6 +408,7 @@ res1520 <- res1520 %>%
 colnames(res1520) <- c("Match Result", "Occurances", "Percent")
 res1520
 ```
+
 ```{r}
 # win all three
 www <- .51999*.45705*.44566
