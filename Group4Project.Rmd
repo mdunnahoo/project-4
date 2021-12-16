@@ -201,10 +201,18 @@ plot02 <- ggplot(uni1) +
 plot_grid(plot01, plot02, labels="AUTO", ncol=1)
 
 ```
+
 The exploratory plot above, plot A, shows the outcomes of matches for Manchester City (Man City) as the home team in the 2011-2012 season. Specifically, it includes all of Man City's home games leading up to the match that they played against Manchester United (Man United) as the away team on April 30, 2012. The outcomes of the matches are measured as a win (three points), loss (one point) or draw (zero points). Manchester City won the vast majority of those matches and had very few losses. It doesn't appear that Man City had any draws. The exploratory plot above, plot B, shows the outcomes of matches for Manchester United as the away team in the 2011-2012 season leading up to the team's match at Manchester City on April 30, 2012. Man United won most of those matches, it had some losses and very few draws. From these exploratory plots it seems reasonable to guess that Manchester City would win the match against Manchester United. 
 
 
 ## Prediction for Match
+
+
+
+```{r, echo=FALSE, out.width='70%', fig.align="center"}
+knitr::include_graphics("ManCityTable.png")
+```
+
 
 ```{r pred0, echo=FALSE}
 # Takes a couple minutes to run
@@ -219,14 +227,17 @@ colnames(res356) <- c("Match Result", "Occurances", "Percent")
 res356$"Article Result" <- c(51.589, 22.779, 25.632)
 res356
 ```
+
+
 Predictions are in terms of the home team   
 Actual result was a home win (1-0)
-We created a table for the match results of 
-found the 
+
 The results of the article differ slightly from the results we found. This is likely due to the randomness of sampling, as well as the increased number of simulations the paper ran.
 compare this table to one in article 
 
 # Further Exploration
+
+We ran simulations to predict the outcomes of certain matches. We chose to run simulations for three matches that resulted in either a home draw, win, or loss. Something we noticed is that our predictions gave an advantage to the home teams rather than the away teams. This makes sense because generally home teams tend to be more supported and well rested when games are played at their home stadiums. 
 
 ## Chelsea (Home) vs Liverpool (Away) 5/10/2015
 
@@ -247,6 +258,7 @@ plot2 <- ggplot(liv) +
   geom_point(aes(Date, outcome, color=outcome)) + ggtitle("Liverpool")
 plot_grid(plot1, plot2, labels="AUTO", ncol=1)
 ```
+
 The exploratory plot above, plot A, shows the outcomes of matches for Chelsea as the home team in the 2014-2015 season. It shows the outcomes of Chelsea's home games leading up to the match that they played against Liverpool as the away team on May 10, 2015. Chelsea won the majority of those matches and had very few losses and even less draws. The exploratory plot above, plot B, shows the outcomes of matches for Liverpool as the away team in the 2014-2015 season leading up to the team's match at and against Chelsea. Liverpool won the majority of its matches, had some draws and even fewer losses. From these exploratory plots it is difficult to guess which team would have won the match, but Chelsea seems to be a strong guess because the team appears to have a few more wins than Liverpool. 
 
 ### Prediction for Match
@@ -264,9 +276,8 @@ res1497 <- res1497 %>%
 colnames(res1497) <- c("Match Result", "Occurances", "Percent")
 res1497
 ```
-Predictions are in terms of the home team   
-Actual result was a draw
-DO THIS!!!!!!!!
+
+We ran simulations that modeled Chelsea as the home team and Liverpool as the away team that predicted the outcome of the May 5, 2015 match. We compiled our results into a table that models our predictions in terms of the home team (Chelsea). Our simulations found that Chelsea should win the match against Liverpool over fifty percent of the time and lose to Liverpool less than thirty percent of the time. Our findings predicted that Chelsea should have won the match, however the game resulted in a draw. 
 
 ## Manchester City (Home) vs Newcastle (Away) 8/19/2013
 
@@ -287,6 +298,7 @@ plot4 <- ggplot(new) +
   geom_point(aes(Date, outcome, color=outcome)) + ggtitle("Newcastle")
 plot_grid(plot3, plot4, labels="AUTO", ncol=1)
 ```
+
 The exploratory plot above, plot A, shows the outcomes of matches for Manchester City as the home team in the 2013-2014 season. Specifically, it includes all of Man City's home games leading up to the match that they played against Newcastle as the away team on August 19, 2013. Manchester City won the vast majority of those matches and had very few losses and even less draws. The exploratory plot above, plot B, shows the outcomes of matches for Newcastle as the away team in the 2011-2012 season leading up to the team's match at and against Man City on August 19, 2013. Newcastle won most of those matches, had some losses and very few draws. From these exploratory plots it seems reasonable to guess that Manchester City would win the match against Newcastle. 
 
 
@@ -304,9 +316,8 @@ res770 <- res770 %>%
 colnames(res770) <- c("Match Result", "Occurances", "Percent")
 res770
 ```
-Predictions are in terms of the home team   
-Actual result was a home win
-DO THIS!!!!!!!!
+
+We ran simulations that modeled Manchester City as the home team and Newcastle as the away team that predicted the outcome of the August 19, 2013 match. We compiled our results into a table that models our predictions in terms of the home team (Manchester City). Our simulations found that Man City should win the match against Newcastle over 60% of the time and lose to Newcastle less than 25% of the time. Our findings predicted that Man City should have won the match and our prediction was correct. 
 
 ## Tottenham (Home) vs Aston Villa (Away) 04/11/2015
 
@@ -345,9 +356,8 @@ res3151 <- res3151 %>%
 colnames(res3151) <- c("Match Result", "Occurances", "Percent")
 res3151
 ```
-Predictions are in terms of the home team   
-Actual result was a home loss
-DO THIS!!!!!!!!
+
+We ran simulations that modeled Tottenham as the home team and Aston Villa as the away team that predicted the outcome of the April 11, 2015 match. We compiled our results into a table that models our predictions in terms of the home team (Tottenham). Our simulations found that Tottenham should win the match against Aston Villa over fifty percent of the time and lose to Aston Villa less than thirty percent of the time. Our findings predicted that the home team should have won the match, however Tottenham lost to Aston Villa. 
 
 # Estimating Final Season Ranking
 
