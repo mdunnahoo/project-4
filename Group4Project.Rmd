@@ -207,12 +207,11 @@ The exploratory plot above, plot A, shows the outcomes of matches for Manchester
 
 ## Prediction for Match
 
-
-
 ```{r, echo=FALSE, out.width='70%', fig.align="center"}
 knitr::include_graphics("ManCityTable.png")
 ```
 
+The article specifically investigates the Manchester City- Manchester United match on April 30, 2012. The paper creates a table based on all of the matches Manchester City played before its match against Manchester United (shown above and taken from the article by Jiri Lahvicka). 10,000,000 simulations were used to create the table and it predicts the result of the match in terms of the home team, Manchester City. The article predicts that Manchester City should likely win the match over 51% of the time. 
 
 ```{r pred0, echo=FALSE}
 # Takes a couple minutes to run
@@ -228,12 +227,7 @@ res356$"Article Result" <- c(51.589, 22.779, 25.632)
 res356
 ```
 
-
-Predictions are in terms of the home team   
-Actual result was a home win (1-0)
-
-The results of the article differ slightly from the results we found. This is likely due to the randomness of sampling, as well as the increased number of simulations the paper ran.
-compare this table to one in article 
+From our Monte Carlo simulations we also created a table in terms of the home team and we predicted that Manchester City should win the match against Manchester United over 49% of the time. The actual result of the game was that Manchester City did win 1-0. Our result differs slightly from the result in the article and this could be due to the randomness of sampling and our decreased simulation size. We ran 100,000 simulations instead of 10,000,000 because the simulations take a very long time to run. 
 
 # Further Exploration
 
