@@ -389,3 +389,5 @@ mc2_funct <- function(match_id, away_team, home_team) {
   return(matches)
 }
 ```
+
+# References 
