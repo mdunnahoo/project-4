@@ -314,45 +314,45 @@ res770
 |   We ran simulations of matches that modeled Manchester City as the home team and Newcastle as the away team to predict the outcome of the August 19, 2013 match. We compiled our results into a table that models our predictions in terms of the home team (Manchester City). Our simulations resulted in Manchester City winning the match against Newcastle about 60% of the time and losing to Newcastle about 23% of the time. Based on our simulations, we would have predicted Manchester City winning against Newcastle. The simulations resulted in an accurate prediction, as Manchester City beat Newcastle 4-0.      
 
 
-## Tottenham (Home) vs Aston Villa (Away) 04/11/2015
+## Sunderland (Home) vs Aston Villa (Away) 04/11/2015
 
 ### Exploratory Plot of Outcomes Before Match
 
 ```{r graph3, echo=FALSE}
-tott <- Home_Function("Tottenham")
-tott$Date <- as.Date(tott$Date, "%d/%m/%y")
-tott <- tott[1:73,]
+sto <- Home_Function("Stoke")
+sto$Date <- as.Date(sto$Date, "%d/%m/%y")
+sto <- sto[1:64,]
 
-av <- Away_Function("Aston Villa")
-av$Date <- as.Date(av$Date, "%d/%m/%y")
-av <- av[1:73,]
+che <- Away_Function("Chelsea")
+che$Date <- as.Date(che$Date, "%d/%m/%y")
+che <- che[1:65,]
 
-p1 <- ggplot(tott) +
-  geom_point(aes(Date, outcome, color=outcome)) + ggtitle("Tottenham")
+p1 <- ggplot(sun) +
+  geom_point(aes(Date, outcome, color=outcome)) + ggtitle("Stoke")
 p2 <- ggplot(av) +
-  geom_point(aes(Date, outcome, color=outcome)) + ggtitle("Aston Villa")
+  geom_point(aes(Date, outcome, color=outcome)) + ggtitle("Chelsea")
 plot_grid(p1, p2, labels="AUTO", ncol=1)
 ```
 
-|   The exploratory plot above, plot A, shows the outcomes of matches for Tottenham as the home team in the seasons from 2011 to 2015 up until the 2014-2015 season match against Aston Villa on April 11, 2015. Tottenham won the majority of these matches and had some losses and draws.    
-|   The exploratory plot above, plot B, shows the outcomes of matches for Aston Villa as the away team in the seasons from 2011 to 2015 up until the 2014-2015 season match against Tottenham. Aston Villa won just a few of its matches, but its matches mainly resulted in draws and losses. From these past results, it is reasonable to predict that Tottenham would win the match against Aston Villa.   
+|   The exploratory plot above, plot A, shows the outcomes of matches for Stoke as the home team in the seasons from 2011 to 2015 up until the 2014-2015 season match against Chelsea on December 22, 2014. Stoke had mixed results of wins and draws, and some losses.     
+|   The exploratory plot above, plot B, shows the outcomes of matches for Chelsea as the away team in the seasons from 2011 to 2015 up until the 2014-2015 season match against Stoke. Chelsea had mixed results of wins, losses, and few draws. From these past results, it is hard to predict who would have won the match.   
 
 ### Prediction for Match
 
 ```{r pred3, echo=FALSE}
 # Takes a couple minutes to run
-Match3151 <- mc_funct(match_id=3151, home_team="Tottenham", away_team="Aston Villa")
-res3151<- table(t(Match3151$ResultH))
-res3151 <- as.data.frame(res3151)
-res3151$Percent <- res3151$Freq/100000 * 100
+Match1310 <- mc_funct(match_id=1310, home_team="Stoke", away_team="Chelsea")
+res1310 <- table(t(Match1310$ResultH))
+res1310 <- as.data.frame(res1310)
+res1310$Percent <- res1310$Freq/100000 * 100
 order <- c("Win", "Loss", "Draw")
-res3151 <- res3151 %>%
+res1310 <- res1310 %>%
   slice(match(Var1, order))
-colnames(res3151) <- c("Match Result", "Occurances", "Percent")
-res3151
+colnames(res1310) <- c("Match Result", "Occurances", "Percent")
+res1310
 ```
 
-|   We ran simulations of matches that modeled Tottenham as the home team and Aston Villa as the away team to predict the outcome of the April 11, 2015 match. We compiled our results into a table that models our predictions in terms of the home team (Tottenham). Our simulations resulted in Tottenham winning the match against Aston Villa about % of the time and losing to Aston Villa about  of the time. Our findings predicted that the home team should have won the match, however Tottenham lost to Aston Villa. 
+|   We ran simulations of matches that modeled Stoke as the home team and Chelsea as the away team to predict the outcome of the December 22, 2014 match. We compiled our results into a table that models our predictions in terms of the home team (Stoke). Our simulations resulted in Stoke winning the match against Chelsea about 37% of the time and losing to Chelsea about 44% of the time. Based on our simulations, we would have predicted Stoke losing the match. This prediction would have been accurate, as Stoke lost the match to Chelsea 0-2.  
 
 # Estimating Final Season Ranking
 
