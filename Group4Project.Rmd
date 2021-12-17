@@ -13,19 +13,17 @@ set.seed(400)
 
 # Article 
 
-We chose the article "Using Monte Carlo Simulation to Calculate Match Importance:
+|   We chose the article "Using Monte Carlo Simulation to Calculate Match Importance:
 The Case of English Premier League" by Jiri Lahvicka. This article describes the process of using Monte Carlo simulations to predict the outcome of a match given the results of previous matches. It specifically predicts the result of the Manchester City versus the Manchester United game in 2012. It then goes further and uses Monte Carlo simulations to predict the final ranking of the teams in the English Premier League at the end of a season. 
 
 # Background Information 
 
-The English Premier League is regarded as the most popular sports league in the world due to its massive audience views and impressive revenue. There are 20 teams in the English Premier League. Manchester United is considered to be the most popular football club with the Liverpool club in second. In football, a game can result in a tie as well as a win or a loss. Three points are awarded for a win, one for a draw and zero for a loss. At the end of each season, the lowest ranking three teams will be “relegated” or demoted to the lower football league, the English Football League (EFL). The highest three ranking clubs in the English Football League will be “promoted” into the Premier League.   
+|   The English Premier League is regarded as the most popular sports league in the world due to its massive audience views and impressive revenue. There are 20 teams in the English Premier League. Manchester United is considered to be the most popular football club with the Liverpool club in second. In football, a game can result in a tie as well as a win or a loss. Three points are awarded for a win, one for a draw and zero for a loss. At the end of each season, the lowest ranking three teams will be “relegated” or demoted to the lower football league, the English Football League (EFL). The highest three ranking clubs in the English Football League will be “promoted” into the Premier League.   
 
 # Data and Code Setup
 
-We got our data from football-data.co.uk. We wanted to use the specific variables FTR, FTAG, and FTHG, along with the identifier variables of Date, Away Team, and Home Team. There were no NA values in any of our selected variables.   
-We used four seasons ranging from years 2011-2015. Each team played 19 away games and 19 home games.   
-We created functions to get the points scored and the outcome of the team for each team over the four years, specifying away or home games.
-
+|   We got our data from football-data.co.uk. We wanted to use the specific variables FTR, FTAG, and FTHG, along with the identifier variables of Date, Away Team, and Home Team. There were no NA values in any of our selected variables. We chose to use four seasons ranging from the years 2011 to 2015. Each team played 19 away games and 19 home games per season.   
+|   We created functions to get the points scored and the outcome of the team for each team over the four years, specifying away or home games for each team.
 
 ```{r data, include=FALSE}
 S11_12 <- read.csv("2011-2012_Match.csv")
@@ -33,7 +31,6 @@ S12_13 <- read.csv("2012-2013_Match.csv")
 S13_14 <- read.csv("2013-2014_Match.csv")
 S14_15 <- read.csv("2014-2015_Match.csv")
 ```
-
 
 ```{r data_manip, include=FALSE}
 
@@ -119,7 +116,6 @@ for(i in teams) {
 
 ```
 
-
 ```{r mc, include=FALSE}
 away_df2 <- rbind(Arsenal_Away,`Aston Villa_Away`,Blackburn_Away,Bolton_Away,Chelsea_Away,Everton_Away,Fulham_Away, Liverpool_Away,`Man City_Away`,`Man United_Away`,Newcastle_Away,Norwich_Away,QPR_Away,Stoke_Away,Sunderland_Away, Swansea_Away,Tottenham_Away,`West Brom_Away`,Wigan_Away,Wolves_Away)
 
@@ -128,7 +124,6 @@ away_df2 %>% group_by(AwayTeam)
 home_df2 <- rbind(Arsenal_Home,`Aston Villa_Home`,Blackburn_Home,Bolton_Home,Chelsea_Home,Everton_Home,Fulham_Home, Liverpool_Home,`Man City_Home`,`Man United_Home`,Newcastle_Home,Norwich_Home,QPR_Home,Stoke_Home,Sunderland_Home, Swansea_Home,Tottenham_Home,`West Brom_Home`,Wigan_Home,Wolves_Home)
 
 home_df2 %>% group_by(HomeTeam)
-
 
 mc_funct <- function(match_id, away_team, home_team) {
   home_df_tail <- home_df2 %>% filter(Id < match_id) %>% group_by(HomeTeam) %>% do(tail(., 19))
@@ -174,12 +169,14 @@ mc_funct <- function(match_id, away_team, home_team) {
 
 # Monte Carlo Estimation
 
-We estimated the lambda home and lambda away values, which are the expected goals scored by the home and away team respectively, using Monte Carlo. These lambda values are assumed to be independent Poisson distributed variables and are calculated using the last 19 matches for each team. The article ran 10,000,000 simulations, but due to our low computational power, we chose to run 100,000 simulations. The general purpose of Monte Carlo is to model the probability of different outcomes and reduce uncertainty. It is very useful for modeling probabilities that come from processes in which random variables intervene with each other, making them difficult to predict. The purpose of the paper's Monte Carlo simulations is to devise a new way to calculate match importance which refers to the relationship between match results and the final outcome for a specific season. 
+|   We estimated the lambda home and lambda away values, which are the expected goals scored by the home and away teams respectively, using Monte Carlo. These lambda values are assumed to be independent Poisson distributed variables and are calculated using the last 19 matches for each team. The article ran 10,000,000 simulations, but due to our low computational power, we chose to run 100,000 simulations. The general purpose of Monte Carlo is to model the probability of different outcomes and reduce uncertainty. It is very useful for modeling probabilities that come from processes in which random variables intervene with each other, making them difficult to predict. The purpose of the paper's Monte Carlo simulations is to devise a new way to calculate match importance which refers to the relationship between match results and the final outcome for a specific season. 
 
-$\lambda_{home}=\frac{\text{Average goals scored by home team + Average goals conceded by away team}}{2}$   
+$\lambda_{home}=\frac{\text{Average goals scored by home team + Average goals conceded by away team}}{2}$    
 $\lambda_{away}=\frac{\text{Average goals scored by away team + Average goals conceded by home team}}{2}$
 
 # Replication From Article
+
+| For this section, we are replicating a portion of the article. Specifically, the article uses Monte Carlo to predict the results of the match where Manchester City plays Manchester United. We will compare the results we obtain with those from the article.   
 
 ## Manchester City (Home) vs Manchester United (Away) 4/30/2012
 
@@ -202,8 +199,9 @@ plot_grid(plot01, plot02, labels="AUTO", ncol=1)
 
 ```
 
-The exploratory plot above, plot A, shows the outcomes of matches for Manchester City (Man City) as the home team in the 2011-2012 season. Specifically, it includes all of Man City's home games leading up to the match that they played against Manchester United (Man United) as the away team on April 30, 2012. The outcomes of the matches are measured as a win (three points), loss (one point) or draw (zero points). Manchester City won the vast majority of those matches and had very few losses. It doesn't appear that Man City had any draws. The exploratory plot above, plot B, shows the outcomes of matches for Manchester United as the away team in the 2011-2012 season leading up to the team's match at Manchester City on April 30, 2012. Man United won most of those matches, it had some losses and very few draws. From these exploratory plots it seems reasonable to guess that Manchester City would win the match against Manchester United. 
-
+|   The exploratory plot above, plot A, shows the outcomes of matches for Manchester City (Man City) as the home team in the 2011-2012 season. Specifically, it includes all of Man City's home games leading up to the match that they played against Manchester United (Man United) as the away team on April 30, 2012. The outcomes of the matches are measured as a win (three points), loss (one point) or draw (zero points). Manchester City won the vast majority of those matches and had very few losses. Manchester City had only one draw and no losses that season, leading up to the game we are interested in predicting for.    
+|   The exploratory plot above, plot B, shows the outcomes of matches for Manchester United as the away team in the 2011-2012 season leading up to the team's match at Manchester City on April 30, 2012. Manchester United won most of those matches, however, it also had some losses and draws. 
+|   From these exploratory plots it seems reasonable to predict that Manchester City would win the match against Manchester United due to the patterns of wins, losses, and draws that each team had during the season, before the match.   
 
 ## Prediction for Match
 
@@ -211,7 +209,7 @@ The exploratory plot above, plot A, shows the outcomes of matches for Manchester
 knitr::include_graphics("ManCityTable.png")
 ```
 
-The article specifically investigates the Manchester City- Manchester United match on April 30, 2012. The paper creates a table based on all of the matches Manchester City played before its match against Manchester United (shown above and taken from the article by Jiri Lahvicka). 10,000,000 simulations were used to create the table and it predicts the result of the match in terms of the home team, Manchester City. The article predicts that Manchester City should likely win the match over 51% of the time. 
+|   The article specifically investigates the Manchester City - Manchester United match on April 30, 2012. The paper creates a table based on all of the matches Manchester City played before its match against Manchester United (shown above and taken from the article by Jiri Lahvicka). 10,000,000 simulations were used to create the table and it predicts the result of the match in terms of the home team, Manchester City. The article's Monte Carlo simulation predicted Manchester City winning the match just over 51% of the time.   
 
 ```{r pred0, echo=FALSE}
 # Takes a couple minutes to run
@@ -227,7 +225,7 @@ res356$"Article Result" <- c(51.589, 22.779, 25.632)
 res356
 ```
 
-From our Monte Carlo simulations we also created a table in terms of the home team and we predicted that Manchester City should win the match against Manchester United over 49% of the time. The actual result of the game was that Manchester City did win 1-0. Our result differs slightly from the result in the article and this could be due to the randomness of sampling and our decreased simulation size. We ran 100,000 simulations instead of 10,000,000 because the simulations take a very long time to run. 
+|   From our Monte Carlo simulations we also created a table in terms of the home team and our Monte Carlo simulation predicted Manchester City would win the match just over 49% of the time. The actual result of the game was that Manchester City did win 1-0. Our result differs slightly from the result in the article and this could be due to the randomness of sampling and our decreased simulation size. We ran 100,000 simulations instead of 10,000,000 because of our limited computational power.    
 
 # Further Exploration
 
@@ -355,7 +353,7 @@ We ran simulations that modeled Tottenham as the home team and Aston Villa as th
 
 # Estimating Final Season Ranking
 
-```{r, echo=FALSE}
+```{r final1, echo=FALSE}
 teams1415 <- unique(S14_15$HomeTeam)
 S14_15$HomePoints <- rep(NA, length(S14_15$Date))
 S14_15$AwayPoints <- rep(NA, length(S14_15$Date))
@@ -373,7 +371,7 @@ for(i in 1:length(S14_15$HomePoints)){
     S14_15$AwayPoints[i] <- 1
   }
 }
-head(S14_15)
+
 hpts <- S14_15 %>%
   group_by(HomeTeam) %>%
   summarise(HomePoints = sum(HomePoints))
@@ -385,12 +383,11 @@ apts <- S14_15 %>%
 tpts <- cbind(apts, hpts)
 
 tpts$TotalPoints <- tpts$AwayPoints + tpts$HomePoints
-tpts
 
 tpts <- tpts[order(-tpts$TotalPoints),]
 ```
 
-```{r, echo=FALSE}
+```{r final2, echo=FALSE}
 #match 1501
 set.seed(400)
 Match1501 <- mc_funct(match_id = 1501, home_team = "Liverpool", away_team = "Crystal Palace")
@@ -401,10 +398,9 @@ order <- c("Win", "Loss", "Draw")
 res1501 <- res1501 %>%
   slice(match(Var1, order))
 colnames(res1501) <- c("Match Result", "Occurances", "Percent")
-res1501
 ```
 
-```{r, echo=FALSE}
+```{r final3, echo=FALSE}
 #match 1520
 set.seed(400)
 Match1520 <- mc_funct(match_id = 1520, home_team = "Stoke", away_team = "Liverpool")
@@ -415,10 +411,9 @@ order <- c("Win", "Loss", "Draw")
 res1520 <- res1520 %>%
   slice(match(Var1, order))
 colnames(res1520) <- c("Match Result", "Occurances", "Percent")
-res1520
 ```
 
-```{r}
+```{r final4, echo=FALSE}
 # win all three
 www <- .51999*.45705*.44566
 
@@ -447,7 +442,6 @@ wdd <- .51999*.22829*.19193
 wll <- .51999*.31466*.36241
 
 
-
 # lose, win, win
 lww <- .2918*.45705*.44566
 
@@ -474,8 +468,6 @@ ldd <- .2918*.22829*.19193
 
 # lose, lose, lose
 lll <- .2918*.31466*.36241
-
-
 
 
 # draw, win, win
@@ -542,9 +534,9 @@ knitr::kable(resdf, caption = "Ranking Probabilities for Liverpool", "pipe", dig
 ```
 
 
-Using the Monte Carlo simulation method that we had used for predicting outcomes of a few matches, the next step was to try and estimate a team's final ranking. The team we chose to do this estimate for was Liverpool. When looking at the actual final rankings of the teams, it seemed uncontested that Chelsea would end up ranking first which is why we ended up choosing Liverpool.   
-In order to get the final ranking, we first conducted the Monte Carlo simulation on the Chelsea versus Liverpool match we had picked for the last step. We then ran this simulation two more times on the matches Liverpool had left in their season. Once we had these results we could look into the probabilities of each final ranking for Liverpool. In order to figure out the other team's final rankings, we took the results of all of their home and away games and converted them to points depending on that result, 3 for a win, 1 for a draw, and 0 for a loss. Once converted to points, we were able to add up the total amount of points for each team and sort them to see each teams actual final ranking from the 2014-15 season. Since we knew all of the other team's final rankings, we were able to fit Liverpool into the results where they belonged based on the Monte Carlo results.   
-The table above shows the probability of each possible ranking for Liverpool based on their previous matches in the season and the Monte Carlo simulations. The overall probabilities of all possible scenarios for Liverpool's final three games based on our simulations were calculated. Then based on these probabilities, the total amount of possible points for those last three games was calculated. This total was then added to Liverpool's point total from their previous games in the season. If the point value of the final three games was less than 3, Liverpool would be ranked 6th. If the point value was between 3 and 9, they would be ranked 5th. If the point value was exactly 3, they would end up tying for 5th, and finally, if the point value was exactly 9, they would end up tying for 4th. In the event that two teams tie in total points in the English Premier League, the criteria used to determine final rank next goes to the total goal difference and then total amount of goals scored. Using these criterion, the final rank can be fully determined. In our case, we chose to just leave the results as ties that could be later determined by these other factors. The probabilities of each of these scenarios were calculated and the most likely result was that they would end up ranking 5th with a probability of about 68.719%. In the actual results, they ended up placing 6th, which our simulation said would only happen with a probability of 16.95%.
+|   Using the Monte Carlo simulation method that we had used for predicting outcomes of a few matches, the next step was to try and estimate a team's final ranking. The team we chose to do this estimate for was Liverpool. When looking at the actual final rankings of the teams, it seemed uncontested that Chelsea would end up ranking first which is why we ended up choosing Liverpool.   
+|   In order to get the final ranking, we first conducted the Monte Carlo simulation on the Chelsea versus Liverpool match we had picked for the last step. We then ran this simulation two more times on the matches Liverpool had left in their season. Once we had these results we could look into the probabilities of each final ranking for Liverpool. In order to figure out the other team's final rankings, we took the results of all of their home and away games and converted them to points depending on that result, 3 for a win, 1 for a draw, and 0 for a loss. Once converted to points, we were able to add up the total amount of points for each team and sort them to see each teams actual final ranking from the 2014-15 season. Since we knew all of the other team's final rankings, we were able to fit Liverpool into the results where they belonged based on the Monte Carlo results.   
+|   The table above shows the probability of each possible ranking for Liverpool based on their previous matches in the season and the Monte Carlo simulations. The overall probabilities of all possible scenarios for Liverpool's final three games based on our simulations were calculated. Then based on these probabilities, the total amount of possible points for those last three games was calculated. This total was then added to Liverpool's point total from their previous games in the season. If the point value of the final three games was less than 3, Liverpool would be ranked 6th. If the point value was between 3 and 9, they would be ranked 5th. If the point value was exactly 3, they would end up tying for 5th, and finally, if the point value was exactly 9, they would end up tying for 4th. In the event that two teams tie in total points in the English Premier League, the criteria used to determine final rank next goes to the total goal difference and then total amount of goals scored. Using these criterion, the final rank can be fully determined. In our case, we chose to just leave the results as ties that could be later determined by these other factors. The probabilities of each of these scenarios were calculated and the most likely result was that they would end up ranking 5th with a probability of about 68.719%. In the actual results, they ended up placing 6th, which our simulation said would only happen with a probability of 16.95%.
 
 # References 
 
