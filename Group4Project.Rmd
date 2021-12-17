@@ -206,7 +206,7 @@ plot_grid(plot01, plot02, labels="AUTO", ncol=1)
 ## Prediction for Match
 
 ```{r, echo=FALSE, out.width='70%', fig.align="center"}
-knitr::include_graphics("ManCityTable.png")
+knitr::include_graphics("/cloud/project/Project-RMD_files/ManCityTable.png")
 ```
 
 |   The article specifically investigates the Manchester City - Manchester United match on April 30, 2012. The paper creates a table based on all of the matches Manchester City played before its match against Manchester United (shown above and taken from the article by Jiri Lahvicka). 10,000,000 simulations were used to create the table and it predicts the result of the match in terms of the home team, Manchester City. The article's Monte Carlo simulation predicted Manchester City winning the match just over 51% of the time.   
