@@ -314,7 +314,7 @@ res770
 |   We ran simulations of matches that modeled Manchester City as the home team and Newcastle as the away team to predict the outcome of the August 19, 2013 match. We compiled our results into a table that models our predictions in terms of the home team (Manchester City). Our simulations resulted in Manchester City winning the match against Newcastle about 60% of the time and losing to Newcastle about 23% of the time. Based on our simulations, we would have predicted Manchester City winning against Newcastle. The simulations resulted in an accurate prediction, as Manchester City beat Newcastle 4-0.      
 
 
-## Sunderland (Home) vs Aston Villa (Away) 04/11/2015
+## Stoke (Home) vs Chelsea (Away) 12/22/2014
 
 ### Exploratory Plot of Outcomes Before Match
 
@@ -327,9 +327,9 @@ che <- Away_Function("Chelsea")
 che$Date <- as.Date(che$Date, "%d/%m/%y")
 che <- che[1:65,]
 
-p1 <- ggplot(sun) +
+p1 <- ggplot(sto) +
   geom_point(aes(Date, outcome, color=outcome)) + ggtitle("Stoke")
-p2 <- ggplot(av) +
+p2 <- ggplot(che) +
   geom_point(aes(Date, outcome, color=outcome)) + ggtitle("Chelsea")
 plot_grid(p1, p2, labels="AUTO", ncol=1)
 ```
@@ -352,7 +352,8 @@ colnames(res1310) <- c("Match Result", "Occurances", "Percent")
 res1310
 ```
 
-|   We ran simulations of matches that modeled Stoke as the home team and Chelsea as the away team to predict the outcome of the December 22, 2014 match. We compiled our results into a table that models our predictions in terms of the home team (Stoke). Our simulations resulted in Stoke winning the match against Chelsea about 37% of the time and losing to Chelsea about 44% of the time. Based on our simulations, we would have predicted Stoke losing the match. This prediction would have been accurate, as Stoke lost the match to Chelsea 0-2.  
+|   We ran simulations of matches that modeled Stoke as the home team and Chelsea as the away team to predict the outcome of the December 22, 2014 match. We compiled our results into a table that models our predictions in terms of the home team (Stoke). Our simulations resulted in Stoke winning the match against Chelsea about 37% of the time and losing to Chelsea about 44% of the time. Based on our simulations, we would have predicted Stoke losing the match. This prediction would have been accurate, as Stoke lost the match to Chelsea 0-4. 
+
 
 # Estimating Final Season Ranking
 
